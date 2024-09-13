@@ -64,9 +64,25 @@ class Player:
             ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png",
             scale=0.5
         )
-        print('x = {a}'.format(a=self.x))
-        print('y = {a}'.format(a=self.y))
-        # Set the player's initial position
+        self.update_player_position()
+
+    def move_up(self):
+        self.y += 1
+        self.update_player_position()
+
+    def move_down(self):
+        self.y -= 1
+        self.update_player_position()
+
+    def move_left(self):
+        self.x -= 1
+        self.update_player_position()
+
+    def move_right(self):
+        self.x += 1
+        self.update_player_position()
+
+    def update_player_position(self):
         self.sprite.center_x = self.x * SPRITE_SIZE + self.SPRITE_ADJUSTMENT_X
         self.sprite.center_y = self.y * SPRITE_SIZE + self.SPRITE_ADJUSTMENT_Y
 
@@ -83,13 +99,13 @@ class SokobanLevel(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
         if key in [arcade.key.W, arcade.key.UP]:
-            self.player.sprite.change_y = PLAYER_MOVEMENT_SPEED
+            self.player.move_up()
         elif key in [arcade.key.S, arcade.key.DOWN]:
-            self.player.sprite.change_y = -PLAYER_MOVEMENT_SPEED
+            self.player.move_down()
         elif key in [arcade.key.A, arcade.key.LEFT]:
-            self.player.sprite.change_x = -PLAYER_MOVEMENT_SPEED
+            self.player.move_left()
         elif key in [arcade.key.D, arcade.key.RIGHT]:
-            self.player.sprite.change_x = PLAYER_MOVEMENT_SPEED
+            self.player.move_right()
 
     def on_key_release(self, key, modifiers):
         """Called whenever a key is released."""
