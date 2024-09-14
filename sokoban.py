@@ -1,5 +1,6 @@
 import arcade
-from scripts.sokoplayer import Player
+from scripts.level import Level
+from scripts.player import Player
 
 # Define constants for the screen
 SCREEN_WIDTH = 1280
@@ -15,7 +16,7 @@ player_position_y = 0
 
 # Define the level matrix
 
-level = [
+level_matrix = [
     ['-', '-', '-', '-', '#', '#', '#', '#', '#', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '#', '-', '-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '#', '$', '-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
@@ -37,14 +38,13 @@ SPRITES = {
     '@': ":resources:images/tiles/switchGreen.png"
 }
 
-
 class SokobanLevel(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
 
-        self.player = Player(level, SPRITE_SIZE)
-
+        self.level = Level(SPRITE_SIZE)
+        self.player = Player(self.level, SPRITE_SIZE)
         self.sprites = arcade.SpriteList()
 
     def on_key_press(self, key, modifiers):
@@ -60,21 +60,22 @@ class SokobanLevel(arcade.Window):
 
     def setup(self):
         # Load and position the sprites
-        for row_index, row in enumerate(level):
+        for row_index, row in enumerate(self.level.matrix):
             for col_index, item in enumerate(row):
                 if item in SPRITES:
                     sprite = arcade.Sprite(SPRITES[item], scale=0.5)
                     sprite.center_x = col_index * SPRITE_SIZE + SPRITE_SIZE / 2
-                    sprite.center_y = (len(level) - row_index - 1) * SPRITE_SIZE + SPRITE_SIZE / 2
+                    sprite.center_y = (len(self.level.matrix) - row_index - 1) * SPRITE_SIZE + SPRITE_SIZE / 2
                     self.sprites.append(sprite)
-
 
     def on_draw(self):
         arcade.start_render()
+        self.level.sprite.draw()
         self.sprites.draw()
         self.player.sprite.draw()
 
     def on_update(self, delta_time):
+        self.level.sprite.update()
         self.player.sprite.update()
 
 def main():
