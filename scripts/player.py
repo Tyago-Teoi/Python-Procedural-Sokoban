@@ -66,15 +66,21 @@ class Player:
             elif move == 'r':
                 self.move_left()
             if move == 'U':
-                last_position = Position(self.position.x - 1, self.position.y)
-                before_last_position = Position(self.position.x - 2, self.position.y)
+                self.set_player_position(Position(self.position.x, self.position.y + 2))
                 self.move_down()
+                self.set_player_position(Position(self.position.x, self.position.y - 2))
             elif move == 'D':
+                self.set_player_position(Position(self.position.x, self.position.y - 2))
                 self.move_up()
+                self.set_player_position(Position(self.position.x, self.position.y + 2))
             elif move == 'L':
+                self.set_player_position(Position(self.position.x - 2, self.position.y))
                 self.move_right()
+                self.set_player_position(Position(self.position.x + 2, self.position.y))
             elif move == 'R':
+                self.set_player_position(Position(self.position.x + 2, self.position.y))
                 self.move_left()
+                self.set_player_position(Position(self.position.x - 2, self.position.y))
 
             self.player_movements.pop()
 
