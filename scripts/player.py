@@ -71,49 +71,27 @@ class Player:
     def move_execute(self, next_position, after_next_position, move_character_minor, move_character_major):
         translated_position = next_position.translate_to_matrix_position(self.level.matrix)
         translated_next_position = after_next_position.translate_to_matrix_position(self.level.matrix)
+        next_pos_char = self.level.matrix[translated_position.y][translated_position.x]
+        after_next_pos_char = self.level.matrix[translated_next_position.y][translated_next_position.x]
 
-        print(self.level.matrix[translated_position.y][translated_position.x])
-        print(self.level.matrix[translated_next_position.y][translated_next_position.x])
-
-
-        if (self.level.matrix[translated_position.y][translated_position.x] == '-' or
-                self.level.matrix[translated_position.y][translated_position.x] == '.'):
-            print(1)
-
-            self.set_player_position(next_position)
-            self.player_movements.append(move_character_minor)
-        elif (self.level.matrix[translated_position.y][translated_position.x] == '$'  and
-              self.level.matrix[translated_next_position.y][translated_next_position.x] == '-'):
-            print(2)
-            self.level.matrix[translated_position.y][translated_position.x] = '-'
-            self.level.matrix[translated_next_position.y][translated_next_position.x] = '$'
-            self.set_player_position(next_position)
-            self.player_movements.append(move_character_major)
-        elif (self.level.matrix[translated_position.y][translated_position.x] == '$' and
-              self.level.matrix[translated_next_position.y][translated_next_position.x] == '.'):
-            print(3)
-            self.level.matrix[translated_position.y][translated_position.x] = '-'
-            self.level.matrix[translated_next_position.y][translated_next_position.x] = '%'
-            self.set_player_position(next_position)
-            self.player_movements.append(move_character_major)
-        elif (self.level.matrix[translated_position.y][translated_position.x] == '%' and
-              self.level.matrix[translated_next_position.y][translated_next_position.x] == '.'):
-            print(4)
-            self.level.matrix[translated_position.y][translated_position.x] = '.'
-            self.level.matrix[translated_next_position.y][translated_next_position.x] = '%'
-            self.set_player_position(next_position)
-            self.player_movements.append(move_character_major)
-        elif (self.level.matrix[translated_position.y][translated_position.x] == '%' and
-              self.level.matrix[translated_next_position.y][translated_next_position.x] == '-'):
-            print(5)
+        if next_pos_char == '-' or next_pos_char == '.' or next_pos_char == '@':
+            self.end_move_execute(next_position, move_character_minor)
+        elif next_pos_char == '$'  and after_next_pos_char == '-':
+            self.update_level_on_block_push(translated_position, translated_next_position, '-', '$')
+            self.end_move_execute(next_position, move_character_major)
+        elif next_pos_char == '$' and after_next_pos_char == '.':
+            self.update_level_on_block_push(translated_position, translated_next_position, '-', '%')
+            self.end_move_execute(next_position, move_character_major)
+        elif next_pos_char == '%' and after_next_pos_char == '.':
+            self.update_level_on_block_push(translated_position, translated_next_position, '.', '%')
+            self.end_move_execute(next_position, move_character_major)
+        elif next_pos_char == '%' and after_next_pos_char == '-':
             self.update_level_on_block_push(translated_position, translated_next_position, '.', '$')
-            #self.level.matrix[translated_position.y][translated_position.x] = '.'
-            #self.level.matrix[translated_next_position.y][translated_next_position.x] = '#'
-            self.set_player_position(next_position)
-            self.player_movements.append(move_character_major)
+            self.end_move_execute(next_position, move_character_major)
 
-        print()
-
+    def end_move_execute(self, next_position, move_character):
+        self.set_player_position(next_position)
+        self.player_movements.append(move_character)
 
     def update_level_on_block_push(self, translated_next_pos, translated_after_next_pos, next_char, after_next_char):
         self.level.change_level_block(translated_next_pos.x, translated_next_pos.y, next_char)
