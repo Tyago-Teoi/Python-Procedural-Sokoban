@@ -33,11 +33,14 @@ class SokobanLevel(arcade.Window):
             self.player.move_left()
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.player.move_right()
+
         # RE-DO KEY
         elif key in [arcade.key.R]:
             self.player.move_redo()
 
         # RELOAD LEVEL KEY
+        elif key in [arcade.key.ESCAPE]:
+            self.player.reload_level()
 
         self.player.print_movements()
 

@@ -53,10 +53,13 @@ class Player:
         after_next_position = Position(self.position.x + 2, self.position.y)
         self.move_execute(next_position, after_next_position, 'r', 'R')
 
+    def reload_level(self):
+        while len(self.player_movements):
+            self.move_redo()
+
     def move_redo(self):
         if len(self.player_movements):
             move = self.player_movements.pop()
-
             if move == 'u':
                 self.move_down()
             elif move == 'd':
