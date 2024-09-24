@@ -14,15 +14,6 @@ PLAYER_MOVEMENT_SPEED = 60
 player_position_x = 0
 player_position_y = 0
 
-# Sprite file paths
-SPRITES = {
-    '#': ":resources:images/tiles/boxCrate_single.png",
-    '-': ":resources:images/tiles/water.png",
-    '$': ":resources:images/tiles/lockRed.png",
-    '@': ":resources:images/tiles/switchGreen.png",
-    '%': ":resources:images/tiles/boxCrate_single.png",
-}
-
 class SokobanLevel(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)

@@ -32,9 +32,7 @@ class Level:
         self.update_level()
 
     def update_level(self):
-
         self.sprite = arcade.SpriteList()
-
         for row_index, row in enumerate(self.matrix):
             for col_index, item in enumerate(row):
                 if item in SPRITES:
@@ -43,4 +41,5 @@ class Level:
                     sprite.center_y = (len(self.matrix) - row_index - 1) * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
                     self.sprite.append(sprite)
 
-        #self.sprite.update()
+    def change_level_block(self, pos_x, pos_y, new_character):
+        self.matrix[pos_y][pos_x] = new_character
