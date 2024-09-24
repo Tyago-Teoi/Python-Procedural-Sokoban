@@ -58,29 +58,17 @@ class SokobanLevel(arcade.Window):
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.player.move_right()
 
-    def setup(self):
-        # Load and position the sprites
-        for row_index, row in enumerate(self.level.matrix):
-            for col_index, item in enumerate(row):
-                if item in SPRITES:
-                    sprite = arcade.Sprite(SPRITES[item], scale=0.5)
-                    sprite.center_x = col_index * SPRITE_SIZE + SPRITE_SIZE / 2
-                    sprite.center_y = (len(self.level.matrix) - row_index - 1) * SPRITE_SIZE + SPRITE_SIZE / 2
-                    self.sprites.append(sprite)
-
     def on_draw(self):
         arcade.start_render()
         self.level.sprite.draw()
-        self.sprites.draw()
         self.player.sprite.draw()
 
     def on_update(self, delta_time):
-        self.level.sprite.update()
+        self.level.update_level()
         self.player.sprite.update()
 
 def main():
     window = SokobanLevel()
-    window.setup()
     arcade.run()
 
 if __name__ == "__main__":
