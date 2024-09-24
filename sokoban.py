@@ -24,7 +24,7 @@ class SokobanLevel(arcade.Window):
         self.sprites = arcade.SpriteList()
 
     def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed."""
+        # MOVE KEYS
         if key in [arcade.key.W, arcade.key.UP]:
             self.player.move_up()
         elif key in [arcade.key.S, arcade.key.DOWN]:
@@ -33,6 +33,13 @@ class SokobanLevel(arcade.Window):
             self.player.move_left()
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.player.move_right()
+        # RE-DO KEY
+        elif key in [arcade.key.R]:
+            self.player.move_redo()
+
+        # RELOAD LEVEL KEY
+
+        self.player.print_movements()
 
     def on_draw(self):
         arcade.start_render()

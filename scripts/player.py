@@ -1,18 +1,5 @@
 import arcade
-
-class Position:
-    x = -1
-    y = -1
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def update(self, x, y):
-        self.x = x
-        self.y = y
-    def translate_to_matrix_position(self, matrix):
-        return Position(self.x, len(matrix) - self.y - 1)
-    def print(self):
-        print('X = {a} \t Y = {b}'.format(a=self.x, b=self.y))
+from scripts.utils.position import Position
 
 class Player:
     SPRITE_SIZE = 0
@@ -24,9 +11,6 @@ class Player:
     position = Position(0,0)
     sprite = None
 
-    asdf= 0
-    asd = 0
-
     def __init__(self, level, sprite_size):
         self.level = level
         self.SPRITE_SIZE = sprite_size
@@ -36,7 +20,8 @@ class Player:
     def set_player_initial_position(self):
         for i in range(len(self.level.matrix)):
             for j in range(len(self.level.matrix[0])):
-                if self.level.matrix[i][j] == '@':
+                if self.level.matrix[i][j] == self.level.SPAWN_BLOCK:
+                    self.level.change_level_block(j, i, self.level.EMPTY_BLOCK)
                     self.position.update(j, len(self.level.matrix) - i - 1)
                     return True
         return False
@@ -68,25 +53,50 @@ class Player:
         after_next_position = Position(self.position.x + 2, self.position.y)
         self.move_execute(next_position, after_next_position, 'r', 'R')
 
+    def move_redo(self):
+        if len(self.player_movements):
+            move = self.player_movements.pop()
+
+            if move == 'u':
+                self.move_down()
+            elif move == 'd':
+                self.move_up()
+            elif move == 'l':
+                self.move_right()
+            elif move == 'r':
+                self.move_left()
+            if move == 'U':
+                last_position = Position(self.position.x - 1, self.position.y)
+                before_last_position = Position(self.position.x - 2, self.position.y)
+                self.move_down()
+            elif move == 'D':
+                self.move_up()
+            elif move == 'L':
+                self.move_right()
+            elif move == 'R':
+                self.move_left()
+
+            self.player_movements.pop()
+
     def move_execute(self, next_position, after_next_position, move_character_minor, move_character_major):
         translated_position = next_position.translate_to_matrix_position(self.level.matrix)
         translated_next_position = after_next_position.translate_to_matrix_position(self.level.matrix)
         next_pos_char = self.level.matrix[translated_position.y][translated_position.x]
         after_next_pos_char = self.level.matrix[translated_next_position.y][translated_next_position.x]
 
-        if next_pos_char == '-' or next_pos_char == '.' or next_pos_char == '@':
+        if next_pos_char == self.level.EMPTY_BLOCK or next_pos_char == self.level.GOAL_BLOCK:
             self.end_move_execute(next_position, move_character_minor)
-        elif next_pos_char == '$'  and after_next_pos_char == '-':
-            self.update_level_on_block_push(translated_position, translated_next_position, '-', '$')
+        elif next_pos_char == self.level.BOX_BLOCK  and after_next_pos_char == self.level.EMPTY_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, self.level.EMPTY_BLOCK,  self.level.BOX_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == '$' and after_next_pos_char == '.':
-            self.update_level_on_block_push(translated_position, translated_next_position, '-', '%')
+        elif next_pos_char == self.level.BOX_BLOCK and after_next_pos_char == self.level.GOAL_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, self.level.EMPTY_BLOCK, self.level.BOX_UNDER_GOAL_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == '%' and after_next_pos_char == '.':
-            self.update_level_on_block_push(translated_position, translated_next_position, '.', '%')
+        elif next_pos_char == self.level.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == self.level.GOAL_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, self.level.GOAL_BLOCK, self.level.BOX_UNDER_GOAL_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == '%' and after_next_pos_char == '-':
-            self.update_level_on_block_push(translated_position, translated_next_position, '.', '$')
+        elif next_pos_char == self.level.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == self.level.EMPTY_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, self.level.GOAL_BLOCK,  self.level.BOX_BLOCK)
             self.end_move_execute(next_position, move_character_major)
 
     def end_move_execute(self, next_position, move_character):
@@ -104,3 +114,6 @@ class Player:
     def update_player_sprite_position(self):
         self.sprite.center_x = self.position.x * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_X
         self.sprite.center_y = self.position.y * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_Y
+
+    def print_movements(self):
+        print(self.player_movements)

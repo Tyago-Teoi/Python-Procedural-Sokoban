@@ -1,4 +1,5 @@
 import arcade
+
 # Sprite file paths
 SPRITES = {
     '#': ":resources:images/tiles/boxCrate_single.png",
@@ -9,6 +10,12 @@ SPRITES = {
 }
 
 class Level:
+    EMPTY_BLOCK = '-'
+    BOX_BLOCK = '$'
+    LIMIT_BLOCK = '#'
+    GOAL_BLOCK = '.'
+    BOX_UNDER_GOAL_BLOCK = '%'
+    SPAWN_BLOCK = '@'
 
     SPRITE_SIZE = None
 
