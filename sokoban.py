@@ -50,6 +50,10 @@ class SokobanLevel(arcade.Window):
         self.player.sprite.draw()
 
     def on_update(self, delta_time):
+        if self.level.is_player_winner():
+            self.level.display_win_screen()
+            #self.level.generate_new_level()
+            pass
         self.level.update_level()
         self.player.sprite.update()
 
