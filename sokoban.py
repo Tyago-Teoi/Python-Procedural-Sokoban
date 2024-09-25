@@ -19,6 +19,7 @@ class SokobanLevel(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
 
+        self.total_time = 0.0
         self.level = Level(SPRITE_SIZE)
         self.player = Player(self.level, SPRITE_SIZE)
         self.sprites = arcade.SpriteList()
@@ -51,9 +52,11 @@ class SokobanLevel(arcade.Window):
         self.player.sprite.draw()
 
     def on_update(self, delta_time):
+        self.total_time += delta_time
+
         if self.level.is_player_winner():
             self.level.display_win_screen()
-            #self.level.generate_new_level()
+            #self.level.generate_new_level(self.player.player_params, self.total_time % 60)
             pass
         self.level.update_level()
         self.player.sprite.update()
