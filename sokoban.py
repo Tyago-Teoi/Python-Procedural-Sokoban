@@ -42,7 +42,8 @@ class SokobanLevel(arcade.Window):
         elif key in [arcade.key.ESCAPE]:
             self.player.reload_level()
 
-        self.player.print_movements()
+        self.player.print_player_params()
+        #self.player.print_movements()
 
     def on_draw(self):
         arcade.start_render()

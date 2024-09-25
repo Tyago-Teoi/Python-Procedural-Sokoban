@@ -6,6 +6,12 @@ class Player:
     SPRITE_ADJUSTMENT_X = 30
     SPRITE_ADJUSTMENT_Y = 40
 
+    player_params = {
+        'n_moves': 0,
+        'n_resets': 0,
+        'n_redos': 0
+    }
+
     player_movements = []
     level = None
     position = Position(0,0)
@@ -54,12 +60,21 @@ class Player:
         self.move_execute(next_position, after_next_position, 'r', 'R')
 
     def reload_level(self):
+        if len(self.player_movements) != 0:
+            self.player_params['n_resets'] += 1
+
+        count = 0
         while len(self.player_movements):
+            count += 1
             self.move_redo()
+
+        self.player_params['n_redos'] = self.player_params['n_redos'] - count
 
     def move_redo(self):
         if len(self.player_movements):
+            self.player_params['n_redos'] += 1
             move = self.player_movements.pop()
+
             if move == 'u':
                 self.move_down()
             elif move == 'd':
@@ -85,6 +100,7 @@ class Player:
                 self.move_left()
                 self.set_player_position(Position(self.position.x - 2, self.position.y))
 
+            self.player_params['n_moves'] -= 1
             self.player_movements.pop()
 
     def move_execute(self, next_position, after_next_position, move_character_minor, move_character_major):
@@ -109,6 +125,7 @@ class Player:
             self.end_move_execute(next_position, move_character_major)
 
     def end_move_execute(self, next_position, move_character):
+        self.player_params['n_moves'] += 1
         self.set_player_position(next_position)
         self.player_movements.append(move_character)
 
@@ -126,3 +143,6 @@ class Player:
 
     def print_movements(self):
         print(self.player_movements)
+
+    def print_player_params(self):
+        print(self.player_params)
