@@ -9,10 +9,6 @@ SPRITES = {
     '%': ":resources:images/tiles/lockRed.png",
 }
 
-
-
-
-
 class Level:
     EMPTY_BLOCK = '-'
     BOX_BLOCK = '$'

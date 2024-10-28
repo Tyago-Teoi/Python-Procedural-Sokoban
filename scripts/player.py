@@ -12,6 +12,7 @@ class Player:
         'n_redos': 0
     }
 
+    initial_pos = Position(0,0)
     player_movements = []
     level = None
     position = Position(0,0)
@@ -28,6 +29,7 @@ class Player:
             for j in range(len(self.level.matrix[0])):
                 if self.level.matrix[i][j] == self.level.SPAWN_BLOCK:
                     self.level.change_level_block(j, i, self.level.EMPTY_BLOCK)
+                    self.initial_pos.update(j, len(self.level.matrix) - i - 1)
                     self.position.update(j, len(self.level.matrix) - i - 1)
                     return True
         return False

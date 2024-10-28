@@ -1,20 +1,19 @@
-import time
+import arcade
 from scripts.player import Player
 
 class Solver:
     level = None
     player = None
-    delay = 0.0
+    delay = 0
     solution_tried = False
     was_solved = False
+    path = []
     movements = []
 
-    def __init__(self, level, sprite_size, SOLVER_DELAY):
+    def __init__(self, player, level, sprite_size, SOLVER_DELAY):
         self.level = level
         self.delay = SOLVER_DELAY
-        self.player = Player(level, sprite_size)
-        self.player.set_player_initial_position()
-        self.player.set_player_sprite()
+        self.player = player
 
     def solve_level(self):
         pass
@@ -23,8 +22,10 @@ class Solver:
         pass
 
     def show_movements(self):
-        while len(self.movements) != 0:
-            movement = self.movements[0]
+        self.player.reload_level()
+        movements = self.movements.copy()
+        while movements:
+            movement = movements[0]
 
             if movement == 'u':
                 self.player.move_up()
@@ -35,5 +36,7 @@ class Solver:
             elif movement == 'r':
                 self.player.move_right()
 
-            time.sleep(self.delay)
-            self.movements.pop(0)
+            arcade.pause(self.delay)
+            #time.sleep(self.delay)
+            movements.pop(0)
+
