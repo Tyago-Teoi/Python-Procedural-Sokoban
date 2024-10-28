@@ -1,11 +1,15 @@
 import arcade
 from scripts.level import Level
 from scripts.player import Player
+from scripts.solver_bfs import BFSSolver
 
 # Define constants for the screen
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Sokoban Level"
+
+# Solver delay constant
+SOLVER_DELAY = 2.0
 
 # Define the size of each sprite
 SPRITE_SIZE = 60
@@ -23,6 +27,7 @@ class SokobanLevel(arcade.Window):
         self.level = Level(SPRITE_SIZE)
         self.player = Player(self.level, SPRITE_SIZE)
         self.sprites = arcade.SpriteList()
+        self.solver = BFSSolver(self.level, SPRITE_SIZE, SOLVER_DELAY)
 
     def on_key_press(self, key, modifiers):
         # MOVE KEYS
@@ -42,6 +47,10 @@ class SokobanLevel(arcade.Window):
         # RELOAD LEVEL KEY
         elif key in [arcade.key.ESCAPE]:
             self.player.reload_level()
+
+        # SOLVE LEVEL BY SOLVER
+        elif key in [arcade.key.P]:
+            self.solver.solve_level()
 
         self.player.print_player_params()
         #self.player.print_movements()
