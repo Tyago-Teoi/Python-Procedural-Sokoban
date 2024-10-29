@@ -1,5 +1,6 @@
 import arcade
 from scripts.utils.position import Position
+from scripts.level import LevelBlock
 
 class Player:
     SPRITE_SIZE = 0
@@ -27,8 +28,8 @@ class Player:
     def set_player_initial_position(self):
         for i in range(len(self.level.matrix)):
             for j in range(len(self.level.matrix[0])):
-                if self.level.matrix[i][j] == self.level.SPAWN_BLOCK:
-                    self.level.change_level_block(j, i, self.level.EMPTY_BLOCK)
+                if self.level.matrix[i][j] == LevelBlock.SPAWN_BLOCK:
+                    self.level.change_level_block(j, i, LevelBlock.EMPTY_BLOCK)
                     self.initial_pos.update(j, len(self.level.matrix) - i - 1)
                     self.position.update(j, len(self.level.matrix) - i - 1)
                     return True
@@ -111,19 +112,19 @@ class Player:
         next_pos_char = self.level.matrix[translated_position.y][translated_position.x]
         after_next_pos_char = self.level.matrix[translated_next_position.y][translated_next_position.x]
 
-        if next_pos_char == self.level.EMPTY_BLOCK or next_pos_char == self.level.GOAL_BLOCK:
+        if next_pos_char == LevelBlock.EMPTY_BLOCK or next_pos_char == LevelBlock.GOAL_BLOCK:
             self.end_move_execute(next_position, move_character_minor)
-        elif next_pos_char == self.level.BOX_BLOCK  and after_next_pos_char == self.level.EMPTY_BLOCK:
-            self.update_level_on_block_push(translated_position, translated_next_position, self.level.EMPTY_BLOCK,  self.level.BOX_BLOCK)
+        elif next_pos_char == LevelBlock.BOX_BLOCK  and after_next_pos_char == LevelBlock.EMPTY_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, LevelBlock.EMPTY_BLOCK,  LevelBlock.BOX_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == self.level.BOX_BLOCK and after_next_pos_char == self.level.GOAL_BLOCK:
-            self.update_level_on_block_push(translated_position, translated_next_position, self.level.EMPTY_BLOCK, self.level.BOX_UNDER_GOAL_BLOCK)
+        elif next_pos_char == LevelBlock.BOX_BLOCK and after_next_pos_char == LevelBlock.GOAL_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, LevelBlock.EMPTY_BLOCK, LevelBlock.BOX_UNDER_GOAL_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == self.level.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == self.level.GOAL_BLOCK:
-            self.update_level_on_block_push(translated_position, translated_next_position, self.level.GOAL_BLOCK, self.level.BOX_UNDER_GOAL_BLOCK)
+        elif next_pos_char == LevelBlock.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == LevelBlock.GOAL_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, LevelBlock.GOAL_BLOCK, LevelBlock.BOX_UNDER_GOAL_BLOCK)
             self.end_move_execute(next_position, move_character_major)
-        elif next_pos_char == self.level.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == self.level.EMPTY_BLOCK:
-            self.update_level_on_block_push(translated_position, translated_next_position, self.level.GOAL_BLOCK,  self.level.BOX_BLOCK)
+        elif next_pos_char == LevelBlock.BOX_UNDER_GOAL_BLOCK and after_next_pos_char == LevelBlock.EMPTY_BLOCK:
+            self.update_level_on_block_push(translated_position, translated_next_position, LevelBlock.GOAL_BLOCK,  LevelBlock.BOX_BLOCK)
             self.end_move_execute(next_position, move_character_major)
 
     def end_move_execute(self, next_position, move_character):

@@ -9,7 +9,7 @@ SPRITES = {
     '%': ":resources:images/tiles/lockRed.png",
 }
 
-class Level:
+class LevelBlock:
     EMPTY_BLOCK = '-'
     BOX_BLOCK = '$'
     LIMIT_BLOCK = '#'
@@ -17,6 +17,7 @@ class Level:
     BOX_UNDER_GOAL_BLOCK = '%'
     SPAWN_BLOCK = '@'
 
+class Level:
     SPRITE_SIZE = None
     '''
     matrix = [
@@ -73,10 +74,15 @@ class Level:
                     sprite.center_y = (len(self.matrix) - row_index - 1) * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
                     self.sprite.append(sprite)
 
+    def generate_new_level(self, height, width):
+        self.matrix = [[0 for x in range(width)] for y in range(height)]
+
+        
+
     def is_player_winner(self):
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[0])):
-                if self.matrix[i][j] == self.BOX_BLOCK:
+                if self.matrix[i][j] == LevelBlock.BOX_BLOCK:
                     return False
         return True
 
