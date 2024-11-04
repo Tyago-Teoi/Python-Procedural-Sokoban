@@ -49,9 +49,9 @@ class SokobanLevel(arcade.Window):
             self.player.reload_level()
 
         # SOLVE LEVEL BY SOLVER
-        elif key in [arcade.key.P]:
-            self.solver.solve_level()
-            self.player.reload_level()
+        #elif key in [arcade.key.P]:
+        #    self.solver.solve_level()
+        #    self.player.reload_level()
 
         self.player.print_player_params()
         #self.player.print_movements()
