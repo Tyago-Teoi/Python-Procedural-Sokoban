@@ -75,17 +75,24 @@ class Agent:
                 self.facing = 'R'
 
     def walk(self):
-        if self.facing == 'U':
-            self.position.y += 1
-        elif self.facing == 'R':
-            self.position.x += 1
-        elif self.facing == 'D':
-            self.position.y -= 1
-        elif self.facing == 'L':
-            self.position.x -= 1
+        self.position = self.get_next_position()
 
     def stop(self):
         pass
 
     def interact(self):
         pass
+
+    def get_next_position(self):
+        next_position = Position(self.position.x, self.position.y)
+
+        if self.facing == 'U':
+            next_position.y += 1
+        elif self.facing == 'R':
+            next_position.x += 1
+        elif self.facing == 'D':
+            next_position.y -= 1
+        elif self.facing == 'L':
+            next_position.x -= 1
+
+        return next_position

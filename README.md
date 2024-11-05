@@ -11,5 +11,5 @@ Foi implementado, como agente puramente racional, um solver que utiliza-se de bu
 "Littered Dungeon" by Tianmaru licensed CC0:<br>
 https://opengameart.org/content/littered-dungeon
 
-"Recycle Items Set" by Clint Bellanger licensed CC-BY 3.0, OGA-BY 3.0:
+"Recycle Items Set" by Clint Bellanger licensed CC-BY 3.0, OGA-BY 3.0:<br>
 https://opengameart.org/content/recycle-items-set
