@@ -12,7 +12,7 @@ SCREEN_TITLE = "Sokoban Level"
 SOLVER_DELAY = 2
 
 # Define the size of each sprite
-SPRITE_SIZE = 60
+SPRITE_SIZE = 64
 PLAYER_MOVEMENT_SPEED = 60
 
 player_position_x = 0

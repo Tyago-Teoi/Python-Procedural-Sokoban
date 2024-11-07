@@ -1,9 +1,16 @@
+from scripts.destructor_agent import DestructorAgent
+from scripts.constructor_agent import ConstructorAgent
+from scripts.solver_bfs import BFSSolver
+
 MAX_ITERATIONS = 1024
+MAX_AGENTS = 4
+INITIAL_AGENTS_NUMBER = 2
 
 class LevelGenerator:
     width, height = 0, 0
     difficulty = 0
     matrix = None
+    agents = []
 
     def __init__(self, width, height, difficulty, player_params):
         self.width = width
@@ -14,6 +21,7 @@ class LevelGenerator:
 
     def generate_level(self):
         self.insert_level_border()
+        self.initiate_agents()
 
     def insert_level_border(self):
         for i in range(self.height + 2):
@@ -22,6 +30,12 @@ class LevelGenerator:
         for j in range(self.width + 2):
             self.matrix[0][j] = '#'
             self.matrix[self.height+1][j] = '#'
+
+    def initiate_agents(self):
+        destructor_agent = DestructorAgent()
+        #for i in range(INITIAL_AGENTS_NUMBER):
+
+
 
     def alocate_level_matrix(self):
         return [[0 for x in range(self.width+2)] for y in range(self.height+2)]
