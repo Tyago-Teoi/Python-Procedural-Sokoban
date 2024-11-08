@@ -1,33 +1,19 @@
 from scripts.utils.position import Position
 import random
 
-class Chance:
-    walk = .3
-    stop = .3
-    turn_left = .15
-    turn_right = .15
-    turn_back = .1
-    interact = .0
-
-    def __init__(self, c_w, c_s, c_l, c_r, c_b, c_i):
-        self.walk = c_w
-        self.stop = c_s
-        self.turn_left = c_l
-        self.turn_right = c_r
-        self.turn_back = c_b
-        self.interact = c_i
 
 class Agent:
-    default_chance = Chance(.3, .3, .15, .15, .1,.0)
     chance = None
+    player_params = None
     level = None
     position = Position(0, 0)
     facing = 'U' # U = UP, D = DOWN, L = LEFT, R = RIGHT
 
-    def __init__(self, chance):
+    def __init__(self, chance, player_params):
         self.chance = chance
+        self.player_params = player_params
 
-    def select_action(self):
+    def act(self):
         rand = random.uniform(0,1)
         accumulator = 0 + self.chance.walk
 

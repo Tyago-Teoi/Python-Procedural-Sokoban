@@ -1,6 +1,6 @@
-from scripts.destructor_agent import DestructorAgent
-from scripts.constructor_agent import ConstructorAgent
-from scripts.solver_bfs import BFSSolver
+from scripts.artificial_agents.destructor_agent import DestructorAgent
+from scripts.artificial_agents.constructor_agent import ConstructorAgent
+from scripts.artificial_agents.chance import Chance
 
 MAX_ITERATIONS = 1024
 MAX_AGENTS = 4
@@ -11,17 +11,20 @@ class LevelGenerator:
     difficulty = 0
     matrix = None
     agents = []
+    player_params = None
 
     def __init__(self, width, height, difficulty, player_params):
         self.width = width
         self.height = height
         self.difficulty = difficulty
         self.player_params = player_params
-        self.matrix = self.alocate_level_matrix()
+        self.matrix = self.allocate_level_matrix()
 
     def generate_level(self):
         self.insert_level_border()
         self.initiate_agents()
+        self.start_agents_generation()
+        return self.matrix
 
     def insert_level_border(self):
         for i in range(self.height + 2):
@@ -32,12 +35,21 @@ class LevelGenerator:
             self.matrix[self.height+1][j] = '#'
 
     def initiate_agents(self):
-        destructor_agent = DestructorAgent()
+        chance = Chance()
+        chance.default_chance()
+        destructor_agent = DestructorAgent(chance, self.player_params, self.matrix, 1)
+        constructor_agent = ConstructorAgent(chance, self.player_params, self.matrix, .85, .15)
+        self.agents.append(destructor_agent)
+        self.agents.append(constructor_agent)
+
         #for i in range(INITIAL_AGENTS_NUMBER):
 
+    def start_agents_generation(self):
+        for interaction in range(MAX_ITERATIONS):
+            for i in range(len(self.agents)):
+                self.agents[i].act()
 
-
-    def alocate_level_matrix(self):
+    def allocate_level_matrix(self):
         return [[0 for x in range(self.width+2)] for y in range(self.height+2)]
 
     def print(self):
