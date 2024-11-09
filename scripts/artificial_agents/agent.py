@@ -8,9 +8,11 @@ class Agent:
     position = Position(0, 0)
     facing = 'U' # U = UP, D = DOWN, L = LEFT, R = RIGHT
 
-    def __init__(self, chance, player_params):
+    def __init__(self, chance, level, player_params):
         self.chance = chance
+        self.level = level
         self.player_params = player_params
+        self.set_agent_spawn_position()
 
     def act(self):
         rand = random.uniform(0,1)
@@ -68,6 +70,10 @@ class Agent:
     def interact(self):
         pass
 
+    def set_agent_spawn_position(self):
+        x = random.randint(1, len(self.level[0]) + 1)
+        y = random.randint(1, len(self.level) + 1)
+
     def get_next_position(self):
         next_position = Position(self.position.x, self.position.y)
 
@@ -83,5 +89,6 @@ class Agent:
         return next_position
 
     def is_valid(self, pos):
-        return 1 <= pos.y < len(self.level) and 1 <= pos.x < len(self.level[0]) and self.level[pos.y][pos.x] != "#"
+        return (1 <= pos.y < len(self.level) and 1 <= pos.x < len(self.level[0])
+                and self.level[pos.y][pos.x] != "#" and self.level[pos.y][pos.x] != "$")
 

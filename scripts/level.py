@@ -77,9 +77,7 @@ class Level:
                     self.sprite.append(sprite)
 
     def generate_new_level(self, height, width):
-        self.matrix = [[0 for x in range(width)] for y in range(height)]
-
-        
+        self.matrix = [['-' for x in range(width)] for y in range(height)]
 
     def is_player_winner(self):
         for i in range(len(self.matrix)):

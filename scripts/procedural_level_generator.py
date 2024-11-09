@@ -38,7 +38,7 @@ class LevelGenerator:
         chance = Chance()
         chance.default_chance()
         destructor_agent = DestructorAgent(chance, self.player_params, self.matrix, 1)
-        constructor_agent = ConstructorAgent(chance, self.player_params, self.matrix, .85, .15)
+        constructor_agent = ConstructorAgent(chance, self.player_params, self.matrix, .6, .4)
         self.agents.append(destructor_agent)
         self.agents.append(constructor_agent)
 
@@ -48,9 +48,11 @@ class LevelGenerator:
         for interaction in range(MAX_ITERATIONS):
             for i in range(len(self.agents)):
                 self.agents[i].act()
+            self.print()
+            print()
 
     def allocate_level_matrix(self):
-        return [[0 for _ in range(self.width + 2)] for _ in range(self.height + 2)]
+        return [['-' for _ in range(self.width + 2)] for _ in range(self.height + 2)]
 
     def print(self):
         for i in range(self.height + 2):
@@ -58,6 +60,6 @@ class LevelGenerator:
                 print(self.matrix[i][j], end = " ")
             print()
 
-test = LevelGenerator(10, 10, 1, None)
+test = LevelGenerator(6, 6, 1, None)
 test.generate_level()
 test.print()
