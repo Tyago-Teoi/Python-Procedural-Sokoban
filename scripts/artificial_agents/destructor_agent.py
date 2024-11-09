@@ -1,3 +1,4 @@
+import random
 from scripts.artificial_agents.agent import Agent
 
 
@@ -14,4 +15,6 @@ class DestructorAgent(Agent):
         self.destroy_block()
 
     def destroy_block(self):
+
         pass
+

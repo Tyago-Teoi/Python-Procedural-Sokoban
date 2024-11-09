@@ -1,5 +1,6 @@
-from scripts.artificial_agents.agent import Agent
 import random
+from scripts.artificial_agents.agent import Agent
+from scripts.level import LevelBlock
 
 class ConstructorAgent(Agent):
     level = None
@@ -13,17 +14,18 @@ class ConstructorAgent(Agent):
         self.level = level
 
     def interact(self):
-        rand = random.uniform(0,1)
-        accumulator = 0 + self.chance_construct_block
+        next_pos = self.get_next_position()
+        if self.is_valid(next_pos):
+            rand = random.uniform(0,1)
+            accumulator = 0 + self.chance_construct_block
+            if rand < accumulator:
+                self.construct_block(next_pos)
+            accumulator += self.chance_construct_box
+            if rand < accumulator:
+                self.construct_box(next_pos)
 
-        if rand < accumulator:
-            self.construct_block()
-        accumulator += self.chance_construct_box
-        if rand < accumulator:
-            self.construct_box()
+    def construct_block(self, next_pos):
+        self.level[next_pos.y][next_pos.x] = LevelBlock.LIMIT_BLOCK
 
-    def construct_block(self):
-        pass
-
-    def construct_box(self):
-        pass
+    def construct_box(self, next_pos):
+        self.level[next_pos.y][next_pos.x] = LevelBlock.BOX_BLOCK

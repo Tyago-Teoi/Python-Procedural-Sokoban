@@ -1,7 +1,6 @@
 from scripts.utils.position import Position
 import random
 
-
 class Agent:
     chance = None
     player_params = None
@@ -82,3 +81,7 @@ class Agent:
             next_position.x -= 1
 
         return next_position
+
+    def is_valid(self, pos):
+        return 1 <= pos.y < len(self.level) and 1 <= pos.x < len(self.level[0]) and self.level[pos.y][pos.x] != "#"
+

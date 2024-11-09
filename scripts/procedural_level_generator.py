@@ -50,7 +50,7 @@ class LevelGenerator:
                 self.agents[i].act()
 
     def allocate_level_matrix(self):
-        return [[0 for x in range(self.width+2)] for y in range(self.height+2)]
+        return [[0 for _ in range(self.width + 2)] for _ in range(self.height + 2)]
 
     def print(self):
         for i in range(self.height + 2):
