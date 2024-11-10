@@ -16,12 +16,12 @@ class ConstructorAgent(Agent):
         if self.is_valid(next_pos):
             rand = random.uniform(0,1)
             accumulator = 0 + self.chance_construct_block
-            if rand < accumulator:
+            if rand <= accumulator:
                 print('CONSTRUCT BLOCK')
                 self.construct_block(next_pos)
                 return
             accumulator += self.chance_construct_box
-            if rand < accumulator:
+            if rand <= accumulator:
                 print('CONSTRUCT BOX')
                 self.construct_box(next_pos)
                 return

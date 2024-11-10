@@ -19,3 +19,5 @@ class Chance:
 
     def default_chance(self):
         return self.update_chance(.3, .15, .175, .175, .05, .15)
+
+

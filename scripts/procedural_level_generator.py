@@ -37,7 +37,7 @@ class LevelGenerator:
     def initiate_agents(self):
         chance = Chance()
         chance.default_chance()
-        destructor_agent = DestructorAgent(chance, self.player_params, self.matrix, 1)
+        destructor_agent = DestructorAgent(chance, self.player_params, self.matrix, .5, .5)
         constructor_agent = ConstructorAgent(chance, self.player_params, self.matrix, .6, .4)
         self.agents.append(destructor_agent)
         self.agents.append(constructor_agent)
