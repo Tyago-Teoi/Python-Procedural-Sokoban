@@ -1,12 +1,13 @@
 class Environment:
-    level = None
+    height, width = 0, 0
     player_params = None
     difficulty = 1
     n_box = 0
     n_goal = 0
 
-    def __init__(self, level, difficulty, player_params):
-        self.level = level
+    def __init__(self, height, width, difficulty, player_params):
+        self.height = height
+        self.width = width
         self.difficulty = difficulty
         self.player_params = player_params
 

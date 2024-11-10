@@ -8,8 +8,8 @@ class DestructorAgent(Agent):
     chance_destruct_block = 0.0
     chance_construct_goal = 0.0
 
-    def __init__(self, chance, player_params, level, c_destruct_block, c_construct_goal):
-        super().__init__(chance, level, player_params)
+    def __init__(self, chance, level, environment, c_destruct_block, c_construct_goal):
+        super().__init__(chance, level, environment)
         self.chance_destruct_block = c_destruct_block
         self.chance_construct_goal = c_construct_goal
 

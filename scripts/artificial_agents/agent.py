@@ -4,15 +4,15 @@ import random
 class Agent:
     name = "Generic"
     chance = None
-    player_params = None
+    environment = None
     level = None
     position = Position(0, 0)
     facing = 'U' # U = UP, D = DOWN, L = LEFT, R = RIGHT
 
-    def __init__(self, chance, level, player_params):
+    def __init__(self, chance, level, environment):
         self.chance = chance
         self.level = level
-        self.player_params = player_params
+        self.environment = environment
         self.set_agent_spawn_position()
 
     def act(self):
@@ -85,8 +85,8 @@ class Agent:
         pass
 
     def set_agent_spawn_position(self):
-        x = random.randint(1, len(self.level[0]) - 1)
-        y = random.randint(1, len(self.level) - 1)
+        x = random.randint(1, self.environment.width - 1)
+        y = random.randint(1, self.environment.height - 1)
         self.position = Position(x, y)
 
     def get_next_position(self):
@@ -109,7 +109,7 @@ class Agent:
         return last_position
 
     def is_valid(self, pos):
-        return 1 <= pos.y < len(self.level) and 1 <= pos.x < len(self.level[0])
+        return 1 <= pos.y <= self.environment.height and 1 <= pos.x <= self.environment.width
 
     def is_walkable(self, pos):
         return self.level[pos.y][pos.x] != "#" and self.level[pos.y][pos.x] != "$"

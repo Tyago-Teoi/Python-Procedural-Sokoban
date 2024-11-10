@@ -7,14 +7,14 @@ class ConstructorAgent(Agent):
     chance_construct_block = 0.0
     chance_construct_box = 0.0
 
-    def __init__(self, chance, player_params, level, c_construct_block, c_construct_box):
-        super().__init__(chance, level, player_params)
+    def __init__(self, chance, level, environment, c_construct_block, c_construct_box):
+        super().__init__(chance, level, environment)
         self.chance_construct_block = c_construct_block
         self.chance_construct_box = c_construct_box
 
     def interact(self):
         next_pos = self.get_next_position()
-        if self.is_valid(next_pos):
+        if self.is_valid(next_pos) and self.is_walkable(next_pos):
             rand = random.uniform(0,1)
             accumulator = 0 + self.chance_construct_block
             if rand <= accumulator:
