@@ -4,6 +4,7 @@ from scripts.level import LevelBlock
 
 
 class DestructorAgent(Agent):
+    name = "Destructor"
     chance_destruct_block = 0.0
     chance_construct_goal = 0.0
 

@@ -1,8 +1,5 @@
-import time
 from collections import deque
-from scripts.player import Player
-from scripts.solver import Solver
-from scripts.utils.position import Position
+from scripts.solvers.solver import Solver
 
 # Definindo as direções de movimento
 DIRECTIONS = [(-1, 0, 'u'), (1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r')]  # cima, baixo, esquerda, direita

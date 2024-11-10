@@ -3,6 +3,7 @@ from scripts.artificial_agents.agent import Agent
 from scripts.level import LevelBlock
 
 class ConstructorAgent(Agent):
+    name = "Constructor"
     chance_construct_block = 0.0
     chance_construct_box = 0.0
 

@@ -1,7 +1,7 @@
 import arcade
 from scripts.level import Level
 from scripts.player import Player
-from scripts.solver_bfs import BFSSolver
+from scripts.solvers.solver_bfs import BFSSolver
 
 # Define constants for the screen
 SCREEN_WIDTH = 1280

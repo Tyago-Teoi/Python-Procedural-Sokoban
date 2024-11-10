@@ -2,6 +2,7 @@ from scripts.utils.position import Position
 import random
 
 class Agent:
+    name = "Generic"
     chance = None
     player_params = None
     level = None
@@ -18,6 +19,7 @@ class Agent:
         rand = random.uniform(0,1)
         accumulator = 0 + self.chance.walk
 
+        print(self.name)
         if rand < accumulator:
             print("WALK")
             self.walk()
@@ -83,10 +85,6 @@ class Agent:
         pass
 
     def set_agent_spawn_position(self):
-        print("AAAAAAAAAAAAAAAAA")
-        print(len(self.level[0]) - 1)
-        print(len(self.level) - 1)
-        print("AAAAAAAAAAAAAAAA")
         x = random.randint(1, len(self.level[0]) - 1)
         y = random.randint(1, len(self.level) - 1)
         self.position = Position(x, y)
@@ -106,7 +104,6 @@ class Agent:
 
         last_position.print()
         next_position.print()
-        print('{a} {b}'.format(a=self.is_valid(next_position), b=self.is_walkable(next_position)))
         if self.is_valid(next_position) and self.is_walkable(next_position):
             return next_position
         return last_position
