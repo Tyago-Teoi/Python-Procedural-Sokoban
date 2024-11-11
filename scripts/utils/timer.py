@@ -1,11 +1,11 @@
 import arcade
 
-class Timer:
+class Timer():
     time = 0
     def __init__(self):
         self.time = 0
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
         self.time += delta_time
 
     def reset(self):
