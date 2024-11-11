@@ -75,8 +75,6 @@ class Player:
 
         self.set_player_params('n_redos', -count)
 
-        #self.player_params['n_redos'] = self.player_params['n_redos'] - count
-
     def move_redo(self):
         if len(self.player_movements):
             self.set_player_params('n_redos', 1)

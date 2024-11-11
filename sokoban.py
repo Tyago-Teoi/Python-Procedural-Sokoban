@@ -2,6 +2,7 @@ import arcade
 from scripts.level import Level
 from scripts.player import Player
 from scripts.solvers.solver_bfs import BFSSolver
+from scripts.utils.timer import Timer
 
 # Define constants for the screen
 SCREEN_WIDTH = 1280
@@ -23,7 +24,7 @@ class SokobanLevel(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
 
-        self.total_time = 0.0
+        self.timer = Timer()
         self.level = Level(SPRITE_SIZE)
         self.player = Player(self.level, SPRITE_SIZE)
         self.sprites = arcade.SpriteList()
@@ -43,6 +44,7 @@ class SokobanLevel(arcade.Window):
         # RE-DO KEY
         elif key in [arcade.key.R]:
             self.player.move_redo()
+            self.timer.print() ####################
 
         # RELOAD LEVEL KEY
         elif key in [arcade.key.ESCAPE]:
@@ -54,6 +56,7 @@ class SokobanLevel(arcade.Window):
             self.solver.solve_level()
             #self.player.reload_level()
 
+
         self.player.print_player_params()
         #self.player.print_movements()
 
@@ -63,7 +66,7 @@ class SokobanLevel(arcade.Window):
         self.player.sprite.draw()
 
     def on_update(self, delta_time):
-        self.total_time += delta_time
+        self.timer.update(delta_time)
 
         if self.level.is_player_winner():
             self.level.display_win_screen()
