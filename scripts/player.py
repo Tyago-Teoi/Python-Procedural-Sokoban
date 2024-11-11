@@ -3,6 +3,7 @@ from scripts.utils.position import Position
 from scripts.level import LevelBlock
 
 class Player:
+    is_solver = False
     SPRITE_SIZE = 0
     SPRITE_ADJUSTMENT_X = 30
     SPRITE_ADJUSTMENT_Y = 40
@@ -10,7 +11,8 @@ class Player:
     player_params = {
         'n_moves': 0,
         'n_resets': 0,
-        'n_redos': 0
+        'n_redos': 0,
+        'n_solver_uses': 0,
     }
 
     initial_pos = Position(0,0)
@@ -75,7 +77,7 @@ class Player:
 
     def move_redo(self):
         if len(self.player_movements):
-            self.player_params['n_redos'] += 1
+            self.player_params['n_redos'] += 1 * self.is_solver
             move = self.player_movements.pop()
 
             if move == 'u':
@@ -103,7 +105,7 @@ class Player:
                 self.move_left()
                 self.set_player_position(Position(self.position.x - 2, self.position.y))
 
-            self.player_params['n_moves'] -= 1
+            self.player_params['n_moves'] -= 1 * self.is_solver
             self.player_movements.pop()
 
     def move_execute(self, next_position, after_next_position, move_character_minor, move_character_major):
@@ -128,7 +130,7 @@ class Player:
             self.end_move_execute(next_position, move_character_major)
 
     def end_move_execute(self, next_position, move_character):
-        self.player_params['n_moves'] += 1
+        self.player_params['n_moves'] += 1 * self.is_solver
         self.set_player_position(next_position)
         self.player_movements.append(move_character)
 
@@ -143,6 +145,9 @@ class Player:
     def update_player_sprite_position(self):
         self.sprite.center_x = self.position.x * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_X
         self.sprite.center_y = self.position.y * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_Y
+
+    def set_solver(self, is_solver):
+        self.is_solver = is_solver
 
     def print_movements(self):
         print(self.player_movements)

@@ -91,3 +91,4 @@ class Level:
 
     def change_level_block(self, pos_x, pos_y, new_character):
         self.matrix[pos_y][pos_x] = new_character
+

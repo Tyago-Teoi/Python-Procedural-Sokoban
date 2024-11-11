@@ -22,6 +22,7 @@ class BFSSolver(Solver):
             return True
         else:
             if self.was_solved:
+                print(1)
                 super().show_movements()
                 return True
             else:

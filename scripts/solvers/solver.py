@@ -23,10 +23,12 @@ class Solver:
 
     def show_movements(self):
         self.player.reload_level()
+        print(2)
         movements = self.movements.copy()
+        print(3)
         while movements:
             movement = movements[0]
-
+            print(4)
             if movement == 'u':
                 self.player.move_up()
             elif movement == 'd':
@@ -35,8 +37,10 @@ class Solver:
                 self.player.move_left()
             elif movement == 'r':
                 self.player.move_right()
-
-            arcade.pause(self.delay)
+            print(5)
+            #arcade.pause(self.delay)
+            print(6)
             #time.sleep(self.delay)
             movements.pop(0)
+
 

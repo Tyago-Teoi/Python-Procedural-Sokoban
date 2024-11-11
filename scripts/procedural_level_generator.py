@@ -56,7 +56,10 @@ class LevelGenerator:
                 print(self.level[i][j], end = " ")
             print()
 
-environment = Environment(4, 8, 1, None)
-test = LevelGenerator(environment)
-test.generate_level()
-test.print()
+def t():
+    environment = Environment(4, 8, 1, None)
+    test = LevelGenerator(environment)
+    test.generate_level()
+    test.print()
+
+t()
