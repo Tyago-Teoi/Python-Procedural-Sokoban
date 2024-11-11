@@ -3,7 +3,7 @@ from scripts.utils.position import Position
 from scripts.level import LevelBlock
 
 class Player:
-    is_solver = False
+    is_animation = False
     SPRITE_SIZE = 0
     SPRITE_ADJUSTMENT_X = 30
     SPRITE_ADJUSTMENT_Y = 40
@@ -66,18 +66,20 @@ class Player:
 
     def reload_level(self):
         if len(self.player_movements) != 0:
-            self.player_params['n_resets'] += 1
+            self.set_player_params('n_resets', 1)
 
         count = 0
         while len(self.player_movements):
             count += 1
             self.move_redo()
 
-        self.player_params['n_redos'] = self.player_params['n_redos'] - count
+        self.set_player_params('n_redos', -count)
+
+        #self.player_params['n_redos'] = self.player_params['n_redos'] - count
 
     def move_redo(self):
         if len(self.player_movements):
-            self.player_params['n_redos'] += 1 * self.is_solver
+            self.set_player_params('n_redos', 1)
             move = self.player_movements.pop()
 
             if move == 'u':
@@ -105,7 +107,7 @@ class Player:
                 self.move_left()
                 self.set_player_position(Position(self.position.x - 2, self.position.y))
 
-            self.player_params['n_moves'] -= 1 * self.is_solver
+            self.set_player_params('n_moves', -1)
             self.player_movements.pop()
 
     def move_execute(self, next_position, after_next_position, move_character_minor, move_character_major):
@@ -130,7 +132,7 @@ class Player:
             self.end_move_execute(next_position, move_character_major)
 
     def end_move_execute(self, next_position, move_character):
-        self.player_params['n_moves'] += 1 * self.is_solver
+        self.set_player_params('n_moves', 1)
         self.set_player_position(next_position)
         self.player_movements.append(move_character)
 
@@ -146,8 +148,11 @@ class Player:
         self.sprite.center_x = self.position.x * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_X
         self.sprite.center_y = self.position.y * self.SPRITE_SIZE + self.SPRITE_ADJUSTMENT_Y
 
-    def set_solver(self, is_solver):
-        self.is_solver = is_solver
+    def set_player_params(self, param, modifier):
+        self.player_params[param] += (not self.is_animation) * modifier
+
+    def set_animation(self, is_animation):
+        self.is_animation = is_animation
 
     def print_movements(self):
         print(self.player_movements)

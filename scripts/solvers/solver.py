@@ -26,7 +26,9 @@ class Solver:
         print(2)
         movements = self.movements.copy()
         print(3)
+        self.player.set_animation(True)
         while movements:
+
             movement = movements[0]
             print(4)
             if movement == 'u':
@@ -42,5 +44,7 @@ class Solver:
             print(6)
             #time.sleep(self.delay)
             movements.pop(0)
+
+        self.player.set_animation(False)
 
 
