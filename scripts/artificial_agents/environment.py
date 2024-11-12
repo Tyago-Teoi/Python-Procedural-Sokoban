@@ -5,7 +5,7 @@ class Environment:
     n_box = 0
     n_goal = 0
 
-    def __init__(self, height, width, difficulty, player_params):
+    def __init__(self, height: int, width: int, difficulty: int, player_params: dict):
         self.height = height
         self.width = width
         self.difficulty = difficulty

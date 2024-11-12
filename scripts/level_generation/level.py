@@ -44,7 +44,7 @@ class Level:
     ['#', '@', '-', '-', '#'],
     ['#', '#', '#', '#', '#']
     ]
-    '''
+    
 
     matrix = [
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
@@ -58,10 +58,13 @@ class Level:
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
     ]
+    '''
+    matrix = None
     sprite = None
 
-    def __init__(self, sprite_size):
+    def __init__(self, sprite_size, matrix):
         self.SPRITE_SIZE = sprite_size
+        self.matrix = matrix
         self.update_level()
         print(len(self.matrix))
         print(len(self.matrix[0]))

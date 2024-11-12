@@ -1,5 +1,8 @@
 import arcade
+
 from scripts.level_generation.level import Level
+from scripts.level_generation.procedural_level_generator import LevelGenerator
+from scripts.artificial_agents.environment import Environment
 from scripts.level_generation.player import Player
 from scripts.solvers.solver_bfs import BFSSolver
 from scripts.utils.timer import Timer
@@ -26,9 +29,11 @@ class SokobanLevel(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
+        initial_environment = Environment(-1,-1,1,None)
 
         self.timer = Timer()
-        self.level = Level(SPRITE_SIZE)
+        self.level_generator = LevelGenerator(SPRITE_SIZE, initial_environment)
+        self.level = self.level_generator.generate_level()
         self.player = Player(self.level, SPRITE_SIZE)
         self.sprites = arcade.SpriteList()
         self.solver = BFSSolver(self.player, self.level, self.timer, SOLVER_DELAY)

@@ -1,7 +1,9 @@
 from scripts.artificial_agents.destructor_agent import DestructorAgent
 from scripts.artificial_agents.constructor_agent import ConstructorAgent
+from scripts.level_generation.level import Level
 from scripts.artificial_agents.chance import Chance
 from scripts.artificial_agents.environment import Environment
+from scripts.artificial_agents.genetic_algorithm import GeneticAlgorithm
 from scripts.level_generation.manual_levels import ManualLevel
 
 MAX_ITERATIONS = 256
@@ -9,13 +11,16 @@ MAX_AGENTS = 4
 INITIAL_AGENTS_NUMBER = 2
 
 class LevelGenerator:
+    sprite_size = 0
     environment = None
     level = None
     agents = []
 
-    def __init__(self, environment):
+    def __init__(self, SPRITE_SIZE, environment):
+        self.sprite_size = SPRITE_SIZE
         self.environment = environment
         self.level = self.allocate_level()
+
 
     def generate_level(self):
         level_difficulty = self.environment.difficulty
@@ -23,12 +28,13 @@ class LevelGenerator:
             temp = self.environment.player_params
             self.level, self.environment = ManualLevel(level_difficulty).select_level()
             self.environment.player_params = temp
+
         else:
             self.insert_level_border()
             self.initiate_agents()
             self.start_agents_generation()
 
-        return self.level
+        return Level(self.sprite_size, self.level)
 
     def insert_level_border(self):
         for i in range(self.environment.height + 2):
@@ -66,7 +72,7 @@ class LevelGenerator:
 
 def t():
     environment = Environment(4, 8, 1, None)
-    test = LevelGenerator(environment)
+    test = LevelGenerator(64,environment)
     test.generate_level()
     test.print()
 

@@ -1,7 +1,7 @@
 import random
-from chance import Chance
-from constructor_agent import ConstructorAgent
-from destructor_agent import DestructorAgent
+from scripts.artificial_agents.chance import Chance
+from scripts.artificial_agents.constructor_agent import ConstructorAgent
+from scripts.artificial_agents.destructor_agent import DestructorAgent
 
 
 class GeneticAlgorithm:
