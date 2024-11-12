@@ -9,9 +9,9 @@ class Chance:
     interact = .15
 
     def __init__(self):
-        self.get_random_chance()
+        self.set_random_chance()
 
-    def get_random_chance(self):
+    def set_random_chance(self):
         values = [random.random() for _ in range(6)]
         total = sum(values)
 
@@ -41,6 +41,3 @@ class Chance:
         print('turn_back: {a}'.format(a=self.turn_back))
         print('interact: {a}'.format(a=self.interact))
         print()
-
-#c = Chance()
-#c.print()
