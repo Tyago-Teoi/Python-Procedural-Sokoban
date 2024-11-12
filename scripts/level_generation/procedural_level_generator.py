@@ -2,6 +2,7 @@ from scripts.artificial_agents.destructor_agent import DestructorAgent
 from scripts.artificial_agents.constructor_agent import ConstructorAgent
 from scripts.artificial_agents.chance import Chance
 from scripts.artificial_agents.environment import Environment
+from scripts.level_generation.manual_levels import ManualLevel
 
 MAX_ITERATIONS = 256
 MAX_AGENTS = 4
@@ -17,9 +18,16 @@ class LevelGenerator:
         self.level = self.allocate_level()
 
     def generate_level(self):
-        self.insert_level_border()
-        self.initiate_agents()
-        self.start_agents_generation()
+        level_difficulty = self.environment.difficulty
+        if int(level_difficulty) == 1 or int(level_difficulty) == 2:
+            temp = self.environment.player_params
+            self.level, self.environment = ManualLevel(level_difficulty).select_level()
+            self.environment.player_params = temp
+        else:
+            self.insert_level_border()
+            self.initiate_agents()
+            self.start_agents_generation()
+
         return self.level
 
     def insert_level_border(self):
