@@ -3,8 +3,7 @@ from scripts.solvers.solver import Solver
 
 DIRECTIONS = [(-1, 0, 'u'), (1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r')]  # cima, baixo, esquerda, direita
 
-MAX_STEPS = 10000000
-
+MAX_STEPS = 10000
 
 class BFSSolver(Solver):
     def __init__(self, player, level, timer, SOLVER_DELAY):

@@ -7,8 +7,6 @@ from scripts.artificial_agents.genetic_algorithm import GeneticAlgorithm
 from scripts.level_generation.manual_levels import ManualLevel
 
 MAX_ITERATIONS = 256
-MAX_AGENTS = 4
-INITIAL_AGENTS_NUMBER = 2
 
 class LevelGenerator:
     sprite_size = 0
@@ -21,17 +19,14 @@ class LevelGenerator:
         self.environment = environment
         self.level = self.allocate_level()
 
-
     def generate_level(self):
         level_difficulty = self.environment.difficulty
         if int(level_difficulty) == 1 or int(level_difficulty) == 2:
             temp = self.environment.player_params
             self.level, self.environment = ManualLevel(level_difficulty).select_level()
             self.environment.player_params = temp
-
         else:
             self.insert_level_border()
-            self.initiate_agents()
             self.start_agents_generation()
 
         return Level(self.sprite_size, self.level)
@@ -44,25 +39,19 @@ class LevelGenerator:
             self.level[0][j] = '#'
             self.level[self.environment.height+1][j] = '#'
 
-    def initiate_agents(self):
-        chance = Chance()
-        chance.default_chance()
-        destructor_agent = DestructorAgent(chance, self.level, self.environment, .5, .5)
-        constructor_agent = ConstructorAgent(chance, self.level, self.environment, .6, .4)
-        self.agents.append(destructor_agent)
-        self.agents.append(constructor_agent)
-
-        #for i in range(INITIAL_AGENTS_NUMBER):
 
     def start_agents_generation(self):
+        blank_level = self.level.copy()
+        self.level = GeneticAlgorithm(10, 10, .05, blank_level, self.environment)
+
+    def generate_level_by_agent_actions(self, agents):
         for interaction in range(MAX_ITERATIONS):
-            for i in range(len(self.agents)):
-                self.agents[i].act()
-            self.print()
-            print()
+            for i in range(len(agents)):
+                agents[i].act()
 
     def allocate_level(self):
         return [['-' for _ in range(self.environment.width + 2)] for _ in range(self.environment.height + 2)]
+
 
     def print(self):
         for i in range(self.environment.height + 2):
@@ -71,7 +60,7 @@ class LevelGenerator:
             print()
 
 def t():
-    environment = Environment(4, 8, 1, None)
+    environment = Environment(6, 6, 3, None)
     test = LevelGenerator(64,environment)
     test.generate_level()
     test.print()
