@@ -1,6 +1,6 @@
 import arcade
-from scripts.level import Level
-from scripts.player import Player
+from scripts.level_generation.level import Level
+from scripts.level_generation.player import Player
 from scripts.solvers.solver_bfs import BFSSolver
 from scripts.utils.timer import Timer
 
@@ -10,7 +10,7 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Sokoban Level"
 
 # Solver delay constant
-SOLVER_DELAY = 1.5
+SOLVER_DELAY = .5
 
 # Define the size of each sprite
 SPRITE_SIZE = 64

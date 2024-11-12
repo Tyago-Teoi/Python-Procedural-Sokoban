@@ -1,6 +1,6 @@
 import arcade
 from scripts.utils.position import Position
-from scripts.level import LevelBlock
+from scripts.level_generation.level import LevelBlock
 
 class Player:
     is_animation = False

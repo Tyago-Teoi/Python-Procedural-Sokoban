@@ -1,6 +1,6 @@
 import random
 from scripts.artificial_agents.agent import Agent
-from scripts.level import LevelBlock
+from scripts.level_generation.level import LevelBlock
 
 
 class DestructorAgent(Agent):

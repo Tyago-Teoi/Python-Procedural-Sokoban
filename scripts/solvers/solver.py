@@ -1,6 +1,3 @@
-import arcade
-from scripts.player import Player
-
 class Solver:
     timer = None
     level = None
