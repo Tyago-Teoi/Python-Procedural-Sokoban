@@ -2,7 +2,7 @@ import arcade
 
 class Timer():
     total_time = 0
-    level_time = 0
+    level_time : float = 0
     def __init__(self):
         self.total_time = 0
         self.level_time = 0
