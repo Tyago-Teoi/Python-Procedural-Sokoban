@@ -101,10 +101,6 @@ class SokobanLevel(arcade.Window):
         self.level.update_level()
         self.player.sprite.update()
 
-    def set_new_level(self):
-
-
-
 def main():
     window = SokobanLevel()
     arcade.run()
