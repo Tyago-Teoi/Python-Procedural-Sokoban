@@ -87,9 +87,10 @@ class SokobanLevel(arcade.Window):
             self.level.display_win_screen()
             #arcade.pause(WIN_DELAY)
             #self.environment.update(player_params)
-            self.level = self.level_generator.generate_next_level(self.player.player_params, self.timer)
+            self.level = self.level_generator.generate_next_level(self.player.player_params, self.solver.movements, self.timer)
             self.player.set_player_next_level(self.level)
             self.timer.reset()
+            self.solver = BFSSolver(self.player, self.level, self.timer, SOLVER_DELAY)
         if is_solving and count%2 == 0:
             arcade.pause(SOLVER_DELAY)
             solver_movements_remaining = self.solver.move_solver()
@@ -99,6 +100,9 @@ class SokobanLevel(arcade.Window):
 
         self.level.update_level()
         self.player.sprite.update()
+
+    def set_new_level(self):
+
 
 
 def main():

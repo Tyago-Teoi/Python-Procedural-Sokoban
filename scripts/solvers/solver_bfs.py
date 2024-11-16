@@ -9,7 +9,6 @@ class BFSSolver(Solver):
     def __init__(self, player, level, timer, SOLVER_DELAY):
         super().__init__(player, level, timer, SOLVER_DELAY)
         self.path = self.calculate_solution()
-        print(self.path)
         self.path_to_movements()
 
     def solve_level(self):

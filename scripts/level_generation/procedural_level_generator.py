@@ -19,8 +19,8 @@ class LevelGenerator:
         self.environment = environment
         self.level = self.allocate_level()
 
-    def generate_next_level(self, player_params, timer):
-        self.environment.update
+    def generate_next_level(self, player_params, solver_movements, timer):
+        self.environment.update(player_params, solver_movements, timer)
         self.generate_level()
 
     def generate_level(self):

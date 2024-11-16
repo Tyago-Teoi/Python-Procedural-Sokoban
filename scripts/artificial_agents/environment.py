@@ -1,6 +1,9 @@
 from scripts.utils.timer import Timer
 import random
 
+HEIGHT_PERCENTAGE_MOD = 0.1
+WIDTH_PERCENTAGE_MOD = 0.3
+
 TIME_MOD_WEIGHT = 1
 PLAYER_MOVE_WEIGHT = 1
 
@@ -10,6 +13,11 @@ MAX_DIFFICULTY = 10
 MIN_DIFFICULTY_ADJUSTMENT = -2
 MAX_DIFFICULTY_ADJUSTMENT = 2
 TIME_FACTOR_RATIO_DIFFERENCE = 0.5
+
+MOVE_WEIGHT = 1
+RESET_WEIGHT = 3
+REDO_WEIGHT = 1.5
+VICTORY_WEIGHT = 1
 
 ARBITRARY_SECONDS_PER_MOVE = 1
 
@@ -26,12 +34,10 @@ class Environment:
         self.difficulty = difficulty
         self.player_params = player_params
 
-    def update_environment(self, player_params, timer: Timer):
-        difficulty_modification_factor = 0.0
-
+    def update(self, player_params, solver_movements, timer: Timer):
         # [-2, +2] game difficulty adjustment
         f_time = self.time_modification_factor(timer.level_time)
-        f_move = self.player_movement_modification_factor(player_params)
+        f_move = self.player_movement_modification_factor(player_params, solver_movements)
 
         difficulty_modification_factor = ((TIME_MOD_WEIGHT * f_time + PLAYER_MOVE_WEIGHT * f_move) /
                                           (TIME_MOD_WEIGHT + PLAYER_MOVE_WEIGHT))
@@ -55,16 +61,21 @@ class Environment:
         if ratio >= (1 + TIME_FACTOR_RATIO_DIFFERENCE):
             return MIN_DIFFICULTY_ADJUSTMENT
         # normalization of ratio between min and max difficulty adjustments
-        return -1*(MIN_DIFFICULTY_ADJUSTMENT + (MAX_DIFFICULTY_ADJUSTMENT - MIN_DIFFICULTY_ADJUSTMENT) * (ratio - (1 - TIME_FACTOR_RATIO_DIFFERENCE))/(2*TIME_FACTOR_RATIO_DIFFERENCE))
+        return normalize_difficulty_factor(ratio)
 
-    def player_movement_modification_factor(self, player_params) -> float:
-        return -999
-        pass
+    def player_movement_modification_factor(self, player_params, solver_movements) -> float:
+        n_movements_to_win = len(solver_movements)
+        n_moves = player_params['n_moves']
+        n_resets = player_params['n_resets']
+        n_redos = player_params['n_redos']
+
+        ratio = 1
+        return 1
 
     def update_level_dimensions(self):
         # 1 -> 3x3=9, 2 -> 5x5=25, 3 -> 6x6=36
-        self.height = 3 + random.randint(self.difficulty, round(self.difficulty + self.difficulty * 0.1))
-        self.width = 3 + random.randint(self.difficulty, round(self.difficulty + self.difficulty * 0.3))
+        self.height = 3 + random.randint(round(self.difficulty), round(self.difficulty + self.difficulty * HEIGHT_PERCENTAGE_MOD))
+        self.width = 3 + random.randint(round(self.difficulty), round(self.difficulty + self.difficulty * WIDTH_PERCENTAGE_MOD))
 
     def add_box(self):
         self.n_box += 1
@@ -78,6 +89,10 @@ class Environment:
     def sub_goal(self):
         self.n_goal -= 1
 
+def normalize_difficulty_factor(ratio):
+    return -1*(MIN_DIFFICULTY_ADJUSTMENT + (MAX_DIFFICULTY_ADJUSTMENT - MIN_DIFFICULTY_ADJUSTMENT) *
+               (ratio - (1 - TIME_FACTOR_RATIO_DIFFERENCE))/(2*TIME_FACTOR_RATIO_DIFFERENCE))
+
 def test():
     player_params = {
         'n_moves': 0,
@@ -86,10 +101,11 @@ def test():
         'n_solver_uses': 0,
         'n_victories': 0
     }
-    env = Environment(height=1, width=1, difficulty=1, player_params=player_params)
+    moves = ['u', 'l', 'l', 'd', 'r']
     timer = Timer()
     timer.on_update(1.49)
-    env.update_environment(player_params, timer)
+    env = Environment(height=1, width=1, difficulty=1, player_params=player_params)
+    env.update(player_params, moves, timer)
 
 test()
 

@@ -19,4 +19,4 @@ class Timer():
         self.level_time = 0
 
     def print(self):
-        print('{a} minutes and {b} seconds'.format(a = int(self.time/60), b = int(self.time%60)))
+        print('{a} minutes and {b} seconds'.format(a = self.level_time//60, b = self.level_time%60))
