@@ -15,6 +15,9 @@ SCREEN_TITLE = "Sokoban Level"
 # Solver delay constant
 SOLVER_DELAY = .5
 
+# Win screen delay
+WIN_DELAY = 5
+
 # Define the size of each sprite
 SPRITE_SIZE = 64
 PLAYER_MOVEMENT_SPEED = 60
@@ -29,8 +32,10 @@ class SokobanLevel(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
-        initial_environment = Environment(-1,-1,1,None)
+        #initial_environment = Environment(-1,-1,1,None)
+        initial_environment = Environment(6, 6, 2, None)
 
+        self.environment = initial_environment
         self.timer = Timer()
         self.level_generator = LevelGenerator(SPRITE_SIZE, initial_environment)
         self.level = self.level_generator.generate_level()
@@ -77,10 +82,14 @@ class SokobanLevel(arcade.Window):
         global is_solving
         global count
         count += 1
+        self.timer.on_update(delta_time)
         if self.level.is_player_winner():
             self.level.display_win_screen()
-            print("WIN")
-            pass
+            #arcade.pause(WIN_DELAY)
+            #self.environment.update(player_params)
+            self.level = self.level_generator.generate_next_level(self.player.player_params, self.timer)
+            self.player.set_player_next_level(self.level)
+            self.timer.reset()
         if is_solving and count%2 == 0:
             arcade.pause(SOLVER_DELAY)
             solver_movements_remaining = self.solver.move_solver()

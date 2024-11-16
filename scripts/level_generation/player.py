@@ -13,6 +13,7 @@ class Player:
         'n_resets': 0,
         'n_redos': 0,
         'n_solver_uses': 0,
+        'n_victories': 0
     }
 
     initial_pos = Position(0,0)
@@ -25,7 +26,10 @@ class Player:
         self.level = level
         self.SPRITE_SIZE = sprite_size
         self.set_player_initial_position()
-        self.set_player_sprite()
+
+    def set_player_next_level(self, level):
+        self.level = level
+        self.set_player_initial_position()
 
     def set_player_initial_position(self):
         for i in range(len(self.level.matrix)):
@@ -34,6 +38,7 @@ class Player:
                     self.level.change_level_block(j, i, LevelBlock.EMPTY_BLOCK)
                     self.initial_pos.update(j, len(self.level.matrix) - i - 1)
                     self.position.update(j, len(self.level.matrix) - i - 1)
+                    self.set_player_sprite()
                     return True
         return False
 

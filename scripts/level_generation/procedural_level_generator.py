@@ -19,9 +19,13 @@ class LevelGenerator:
         self.environment = environment
         self.level = self.allocate_level()
 
+    def generate_next_level(self, player_params, timer):
+        self.environment.update
+        self.generate_level()
+
     def generate_level(self):
         level_difficulty = self.environment.difficulty
-        if int(level_difficulty) == 1 or int(level_difficulty) == 2:
+        if round(level_difficulty) == 1 or round(level_difficulty) == 2:
             temp = self.environment.player_params
             self.level, self.environment = ManualLevel(level_difficulty).select_level()
             self.environment.player_params = temp
@@ -42,7 +46,10 @@ class LevelGenerator:
 
     def start_agents_generation(self):
         blank_level = self.level.copy()
-        self.level = GeneticAlgorithm(10, 10, .05, blank_level, self.environment)
+        genetic_algo = GeneticAlgorithm(10, 10, .05, blank_level, self.environment)
+        best_individual = genetic_algo.run()
+        print(best_individual)
+        #self.level =
 
     def generate_level_by_agent_actions(self, agents):
         for interaction in range(MAX_ITERATIONS):
@@ -65,4 +72,4 @@ def t():
     test.generate_level()
     test.print()
 
-t()
+#t()

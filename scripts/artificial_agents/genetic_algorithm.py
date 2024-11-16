@@ -58,9 +58,10 @@ class GeneticAlgorithm:
             self.generate_level_by_agent_actions([constructor_agent, destructor_agent])
             i, j = self.find_max_dash_3x3(level)
             level[i][j] = '@'
-            player = Player(64, level)
-            solver = BFSSolver(player, Level(64, level), None, None)
-            print(level)
+            self.print_level(level)
+            level_object = Level(64, level)
+            player = Player(64, level_object)
+            solver = BFSSolver(player, level_object, None, None)
             blocks, boxes, goals = self.count_blocks(level)
             blocks_evaluation += (blocks + boxes + goals)/ (self.environment.height * self.environment.width)
             if solver.solve_level():
@@ -172,3 +173,8 @@ class GeneticAlgorithm:
                     goals += 1
 
         return blocks, boxes, goals
+
+    def print_level(self, level):
+        for i in range(len(level)):
+            print(level[i])
+        print()
