@@ -21,7 +21,7 @@ class LevelGenerator:
 
     def generate_next_level(self, player_params, solver_movements, timer):
         self.environment.update(player_params, solver_movements, timer)
-        self.generate_level()
+        return self.generate_level()
 
     def generate_level(self):
         level_difficulty = self.environment.difficulty

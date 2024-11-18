@@ -71,7 +71,7 @@ class Environment:
         n_redos = player_params['n_redos']
 
         sum_player_iterations = n_moves * MOVE_WEIGHT + n_resets * RESET_WEIGHT + n_redos * REDO_WEIGHT
-        if n_moves <= n_movements_to_win:
+        if sum_player_iterations <= n_movements_to_win:
             return MAX_DIFFICULTY_ADJUSTMENT
         if sum_player_iterations >= n_movements_to_win * MOVE_FACTOR_RATIO_DIFFERENCE:
             return MIN_DIFFICULTY_ADJUSTMENT
@@ -94,6 +94,20 @@ class Environment:
     def sub_goal(self):
         self.n_goal -= 1
 
+    def print(self):
+        print('ENVIRONMENT')
+        print('(height, width) = ({a}, {b})'.format(a=self.height, b=self.width))
+        print('difficulty = {a}'.format(a=self.difficulty))
+        print('player params:')
+        print(self.player_params)
+
+        height, width = 0, 0
+        player_params = None
+        difficulty = 1
+        n_box = 0
+        n_goal = 0
+        print()
+
 # normalization of ratio between min and max difficulty adjustments
 def normalize_difficulty_factor(ratio, min_limit_ratio, max_limit_ratio):
     return -1*(MIN_DIFFICULTY_ADJUSTMENT + (MAX_DIFFICULTY_ADJUSTMENT - MIN_DIFFICULTY_ADJUSTMENT) *
@@ -113,5 +127,4 @@ def test():
     env = Environment(height=1, width=1, difficulty=1, player_params=player_params)
     env.update(player_params, moves, timer)
 
-test()
-
+#test()

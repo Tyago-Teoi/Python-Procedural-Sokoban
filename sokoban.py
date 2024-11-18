@@ -33,7 +33,7 @@ class SokobanLevel(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
         #initial_environment = Environment(-1,-1,1,None)
-        initial_environment = Environment(6, 6, 2, None)
+        initial_environment = Environment(6, 6, 1, None)
 
         self.environment = initial_environment
         self.timer = Timer()
