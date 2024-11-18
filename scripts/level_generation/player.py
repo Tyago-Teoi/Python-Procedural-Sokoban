@@ -32,6 +32,7 @@ class Player:
         self.set_player_initial_position()
 
     def set_player_initial_position(self):
+        self.reset_player_params()
         for i in range(len(self.level.matrix)):
             for j in range(len(self.level.matrix[0])):
                 if self.level.matrix[i][j] == LevelBlock.SPAWN_BLOCK:
@@ -156,6 +157,15 @@ class Player:
 
     def set_animation(self, is_animation):
         self.is_animation = is_animation
+
+    def reset_player_params(self):
+        self.player_params = {
+            'n_moves': 0,
+            'n_resets': 0,
+            'n_redos': 0,
+            'n_solver_uses': 0,
+            'n_victories': self.player_params['n_victories']
+        }
 
     def print_movements(self):
         print(self.player_movements)
