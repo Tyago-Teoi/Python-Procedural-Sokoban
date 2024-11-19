@@ -40,4 +40,3 @@ class Chance:
         print('turn_right: {a}'.format(a=self.turn_right))
         print('turn_back: {a}'.format(a=self.turn_back))
         print('interact: {a}'.format(a=self.interact))
-        print()

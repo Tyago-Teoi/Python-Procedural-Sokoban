@@ -5,6 +5,7 @@ from scripts.artificial_agents.chance import Chance
 from scripts.artificial_agents.environment import Environment
 from scripts.artificial_agents.genetic_algorithm import GeneticAlgorithm
 from scripts.level_generation.manual_levels import ManualLevel
+from scripts.utils.timer import Timer
 
 MAX_ITERATIONS = 256
 
@@ -30,6 +31,7 @@ class LevelGenerator:
             self.level, self.environment = ManualLevel(level_difficulty).select_level()
             self.environment.player_params = temp
         else:
+            self.level = self.allocate_level()
             self.insert_level_border()
             self.start_agents_generation()
 
@@ -48,7 +50,9 @@ class LevelGenerator:
         blank_level = self.level.copy()
         genetic_algo = GeneticAlgorithm(10, 10, .05, blank_level, self.environment)
         best_individual = genetic_algo.run()
-        print(best_individual)
+
+        self.print_best_agent_chances(best_individual)
+
         #self.level =
 
     def generate_level_by_agent_actions(self, agents):
@@ -59,6 +63,18 @@ class LevelGenerator:
     def allocate_level(self):
         return [['-' for _ in range(self.environment.width + 2)] for _ in range(self.environment.height + 2)]
 
+    def print_best_agent_chances(self, best_individual):
+        print()
+        print('CONSTRUCTOR AGENT')
+        best_individual[0][0].print()
+        print('construct block: {a}'.format(a=best_individual[0][1]))
+        print('construct box: {a}'.format(a=best_individual[0][2]))
+        print()
+        print('DESTRUCTOR AGENT')
+        best_individual[1][0].print()
+        print('destruct block: {a}'.format(a=best_individual[1][1]))
+        print('construct goal: {a}'.format(a=best_individual[1][2]))
+        print()
 
     def print(self):
         for i in range(self.environment.height + 2):
@@ -66,10 +82,25 @@ class LevelGenerator:
                 print(self.level[i][j], end = " ")
             print()
 
-def t():
-    environment = Environment(6, 6, 3, None)
+#put on a copy of "sprites" folder inside the "level_generation" folder
+def test():
+    environment = Environment(6, 6, 1, None)
     test = LevelGenerator(64,environment)
-    test.generate_level()
-    test.print()
 
-#t()
+    player_params = {
+        'n_moves': 0,
+        'n_resets': 0,
+        'n_redos': 0,
+        'n_solver_uses': 0,
+        'n_victories': 0
+    }
+    solver_moves = ['u', 'l', 'l', 'd', 'r']
+    timer = Timer()
+    timer.on_update(0)
+    # START generate next level like
+    test.environment.update(player_params, solver_moves, timer)
+    test.environment.print()
+    level = test.generate_level()
+    # END generate next level like
+    test.print()
+test()

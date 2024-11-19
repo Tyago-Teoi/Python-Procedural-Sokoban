@@ -19,34 +19,28 @@ class Agent:
         rand = random.uniform(0,1)
         accumulator = 0 + self.chance.walk
 
-        print(self.name)
+        #print(self.name)
         if rand < accumulator:
-            print("WALK")
             self.walk()
             return
         accumulator += self.chance.stop
         if rand < accumulator:
-            print("STOP")
             self.stop()
             return
         accumulator += self.chance.turn_left
         if rand < accumulator:
-            print("TURN_LEFT")
             self.turn('L')
             return
         accumulator += self.chance.turn_right
         if rand < accumulator:
-            print("TURN_RIGHT")
             self.turn('R')
             return
         accumulator += self.chance.turn_back
         if rand < accumulator:
-            print("TURN_BACK")
             self.turn('D')
             return
         accumulator += self.chance.interact
         if rand < accumulator:
-            print("INTERACT")
             self.interact()
             return
 
@@ -102,8 +96,8 @@ class Agent:
         elif self.facing == 'L':
             next_position.x -= 1
 
-        last_position.print()
-        next_position.print()
+        #last_position.print()
+        #next_position.print()
         if self.is_valid(next_position) and self.is_walkable(next_position):
             return next_position
         return last_position

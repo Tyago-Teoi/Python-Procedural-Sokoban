@@ -24,7 +24,6 @@ ARBITRARY_SECONDS_PER_MOVE = 1
 
 class Environment:
     height, width = 0, 0
-    player_params = None
     difficulty = 1
     n_box = 0
     n_goal = 0
@@ -33,7 +32,6 @@ class Environment:
         self.height = height
         self.width = width
         self.difficulty = difficulty
-        self.player_params = player_params
 
     def update(self, player_params, solver_movements, timer: Timer):
         # [-2, +2] game difficulty adjustment
@@ -79,8 +77,8 @@ class Environment:
 
     def update_level_dimensions(self):
         # 1 -> 3x3=9, 2 -> 5x5=25, 3 -> 6x6=36
-        self.height = 3 + random.randint(round(self.difficulty), round(self.difficulty + self.difficulty * HEIGHT_PERCENTAGE_MOD))
-        self.width = 3 + random.randint(round(self.difficulty), round(self.difficulty + self.difficulty * WIDTH_PERCENTAGE_MOD))
+        self.height = 3 + random.randint(round(self.difficulty/2), round(self.difficulty/2 + self.difficulty * HEIGHT_PERCENTAGE_MOD))
+        self.width = 3 + random.randint(round(self.difficulty/2), round(self.difficulty/2 + self.difficulty * WIDTH_PERCENTAGE_MOD))
 
     def add_box(self):
         self.n_box += 1
@@ -98,8 +96,6 @@ class Environment:
         print('ENVIRONMENT')
         print('(height, width) = ({a}, {b})'.format(a=self.height, b=self.width))
         print('difficulty = {a}'.format(a=self.difficulty))
-        print('player params:')
-        print(self.player_params)
 
         height, width = 0, 0
         player_params = None

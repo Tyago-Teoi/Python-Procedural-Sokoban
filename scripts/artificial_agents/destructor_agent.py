@@ -31,3 +31,10 @@ class DestructorAgent(Agent):
 
     def construct_goal(self, next_pos):
         self.level[next_pos.y][next_pos.x] = LevelBlock.GOAL_BLOCK
+
+    def print_chances(self):
+        print('DESTRUCTOR AGENT CHANCES')
+        self.chance.print()
+        print('destruct block: {a}'.format(a=self.chance_destruct_block))
+        print('construct goal: {b}'.format(b=self.chance_construct_goal))
+        print()

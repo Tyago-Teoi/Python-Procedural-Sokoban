@@ -18,12 +18,12 @@ class ConstructorAgent(Agent):
             rand = random.uniform(0,1)
             accumulator = 0 + self.chance_construct_block
             if rand <= accumulator:
-                print('CONSTRUCT BLOCK')
+                #print('CONSTRUCT BLOCK')
                 self.construct_block(next_pos)
                 return
             accumulator += self.chance_construct_box
             if rand <= accumulator:
-                print('CONSTRUCT BOX')
+                #print('CONSTRUCT BOX')
                 self.construct_box(next_pos)
                 return
 
@@ -32,3 +32,10 @@ class ConstructorAgent(Agent):
 
     def construct_box(self, next_pos):
         self.level[next_pos.y][next_pos.x] = LevelBlock.BOX_BLOCK
+
+    def print_chance(self):
+        print('CONSTRUCTOR AGENT CHANCES')
+        self.chance.print()
+        print('construct block: {a}'.format(a=self.chance_construct_block))
+        print('construct box: {b}'.format(b=self.chance_construct_box))
+        print()
