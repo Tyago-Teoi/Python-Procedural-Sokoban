@@ -60,7 +60,7 @@ class GeneticAlgorithm:
             level[i][j] = '@'
             self.print_level(level)
             level_object = Level(64, level)
-            player = Player(64, level_object)
+            player = Player(level_object, 64)
             solver = BFSSolver(player, level_object, None, None)
             blocks, boxes, goals = self.count_blocks(level)
             blocks_evaluation += (blocks + boxes + goals)/ (self.environment.height * self.environment.width)
@@ -175,6 +175,8 @@ class GeneticAlgorithm:
         return blocks, boxes, goals
 
     def print_level(self, level):
+        print(len(level))
+        print(len(level[0]))
         for i in range(len(level)):
             print(level[i])
         print()
