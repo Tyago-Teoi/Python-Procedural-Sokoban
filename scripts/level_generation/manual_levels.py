@@ -6,9 +6,9 @@ class ManualLevel:
         self.difficulty = difficulty
 
     def select_level(self):
-        if int(self.difficulty) == 1:
+        if round(self.difficulty) == 1:
             return self.Level1()
-        if int(self.difficulty) == 2:
+        if round(self.difficulty) == 2:
             return self.Level2()
 
     def Level1(self):
