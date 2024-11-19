@@ -6,6 +6,9 @@ from scripts.solvers.solver_bfs import BFSSolver
 from scripts.level_generation.player import Player
 from scripts.level_generation.level import Level
 
+FITNESS_SOLVING_WEIGHT = 10
+FITNESS_BLOCKS_EVALUATION_WEIGHT = 1
+
 MAX_ITERATIONS = 256
 NUM_LEVEL_GEN = 10
 MAX_AGENTS = 2
@@ -67,7 +70,7 @@ class GeneticAlgorithm:
             if solver.solve_level():
                 solving_evaluation += 1
 
-        total_fitness = solving_evaluation + blocks_evaluation
+        total_fitness = FITNESS_SOLVING_WEIGHT*solving_evaluation + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation
         return total_fitness
 
     def select_parents(self, fitnesses):

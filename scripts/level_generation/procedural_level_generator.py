@@ -2,14 +2,17 @@ from scripts.artificial_agents.destructor_agent import DestructorAgent
 from scripts.artificial_agents.constructor_agent import ConstructorAgent
 from scripts.level_generation.level import Level
 from scripts.artificial_agents.chance import Chance
-from scripts.artificial_agents.environment import Environment
+from scripts.artificial_agents.environment import Environment, MAX_DIFFICULTY
 from scripts.artificial_agents.genetic_algorithm import GeneticAlgorithm
 from scripts.level_generation.manual_levels import ManualLevel
 from scripts.utils.timer import Timer
 
 MAX_ITERATIONS = 256
+MAX_DIFFICULTY = 10
+
 
 class LevelGenerator:
+    n_agents_iterations = MAX_ITERATIONS
     sprite_size = 0
     environment = None
     level = None
@@ -56,12 +59,16 @@ class LevelGenerator:
         #self.level =
 
     def generate_level_by_agent_actions(self, agents):
-        for interaction in range(MAX_ITERATIONS):
+        self.update_max_iterations()
+        for interaction in range(self.n_agents_iterations):
             for i in range(len(agents)):
                 agents[i].act()
 
     def allocate_level(self):
         return [['-' for _ in range(self.environment.width + 2)] for _ in range(self.environment.height + 2)]
+
+    def update_max_iterations(self):
+        self.n_agents_iterations = round(self.environment.difficulty**2 * MAX_ITERATIONS/(MAX_DIFFICULTY**2))
 
     def print_best_agent_chances(self, best_individual):
         print()
