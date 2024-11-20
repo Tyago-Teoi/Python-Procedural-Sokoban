@@ -36,7 +36,7 @@ The project implements two social agents:
 Both agents are influenced by the game **Difficulty**, which is adjusted by player interactions and completion time 
 of the last completed level.
 
-Each agent's action has a <b>Chance<b> to occur. The chance is calculated using a Genetic Algorithm, in which calculate
+Each agent's action has a **Chance** to occur. The chance is calculated using a **Genetic Algorithm**, in which calculate
 individual's fitness, considering the number of blocks and whether the level is completable (using the Solver).
 
 ## Game Narrative
