@@ -135,12 +135,19 @@ class GeneticAlgorithm:
         for generation in range(self.generations):
             fitnesses = [self.fitness(individual) for individual in self.population]
             self.print_level(self.level)
-            new_population = []
-            for _ in range(self.population_size // 2):
+
+            # ELITISM
+            n_elite = max(1, self.population_size // 10)  # 10% of the population or at least 1
+            elite_individuals = sorted(self.population, key=self.fitness, reverse=True)[:n_elite]
+
+            new_population = elite_individuals[:]
+
+            while len(new_population) < self.population_size:
                 parent1, parent2 = self.select_parents(fitnesses)
                 child = self.crossover(parent1, parent2)
                 self.mutate(child)
                 new_population.append(child)
+
             self.print_level(self.level)
             self.population = new_population
 
