@@ -1,11 +1,11 @@
 # SOKOBAN-like game with Procedural Content Generation
 
-The game was implemented using Python3, with the Python library <b>arcade<b>.
+The game was implemented using Python3, with the Python library **arcade**.
 
 The intent is to procedurally generate Sokoban levels using artificial agents.
 
 This project was initially developed as the final project developed under the discipline 
-<b>MAC5784 - Artificial Intelligence in Computer Games (2024)<b>, ministered by professor Flavio Soares Correa da Silva and
+**MAC5784 - Artificial Intelligence in Computer Games (2024)**, ministered by professor Flavio Soares Correa da Silva and
 professor Ricardo Nakamura at the University of São Paulo (IME - USP).
 
 ## Player Mechanics
@@ -14,7 +14,7 @@ professor Ricardo Nakamura at the University of São Paulo (IME - USP).
 * Press ESC to reset the current level
 
 ## Artificial Agents
-Agents are anything that perceives its <b>Environment<b> through <b>Sensors<b> and acts in the environment by <b>Actuators<b> [1]
+Agents are anything that perceives its **Environment** through **Sensors** and acts in the environment by **Actuators** [1]
 
 The description of two categories of artificial agents and their implementation in this project are shown below.
 ### Purely Rational Agent
@@ -33,23 +33,32 @@ The project implements two social agents:
 * Constructor: Agent that moves in the environment and interacts constructing impassable blocks and boxes.
 * Destructor: Agent that moves in the environment, interacts destructing impassable blocks or boxed, and adds goal blocks.
 
-Both agents are influenced by the game <b>Difficulty<b>, which is adjusted by player interactions and completion time 
+Both agents are influenced by the game **Difficulty**, which is adjusted by player interactions and completion time 
 of the last completed level.
 
-Each agent's action has a <b>Chance<b> to occur. The chance is calculated using a Genetic Algorithm, in which calculate
+Each agent's action has a **Chance** to occur. The chance is calculated using a **Genetic Algorithm**, in which calculate
 individual's fitness, considering the number of blocks and whether the level is completable (using the Solver).
 
 ## Game Narrative
 The game intends to be an Educational Game focused on raising awareness about sustainable consumption, related to goal 12
 of the UN's 17 Goals of Sustainable Development [2].
 
-Given the game's scope, it is only possible to address some goal targets. So, the project focuses on the Target 12.5:
+Given the game's scope, it is only possible to address some goal targets. So, the project focuses on the Target 12.5 [3]:
 * By 2030, substantially reduce waste generation through prevention, reduction, recycling, and reuse
 
 The player's objective is to clean all the trash in the city and recycle it.
 The narrative is drawn from the visual art of game elements and the player's interactions with the environment.
 
 ## Limitations
+This project is ongoing and needs to address several limitations for its completion.
+
+### Content Limitations
+At this moment, the procedurally generated levels lack complexity and reliability. Most levels have fewer blocks than intended for the environment's size and difficulty.
+
+Some procedural generator parameters need to be adjusted, as well as constants related to the number of interactions in the genetic algorithm and evaluation weights. 
+
+All of these elements consider and relate to the time spent generating a level, which is a technical limitation that needs to be addressed.
+
 ### Narrative Limitations
 As a serious game, the game lacks elements of the serious intent to raise awareness about sustainable consumption.
 
