@@ -6,8 +6,10 @@ from scripts.artificial_agents.environment import Environment, MAX_DIFFICULTY
 from scripts.artificial_agents.genetic_algorithm import GeneticAlgorithm
 from scripts.level_generation.manual_levels import ManualLevel
 from scripts.utils.timer import Timer
+from scripts.solvers.solver_bfs import BFSSolver
+from scripts.level_generation.player import Player
 
-MAX_ITERATIONS = 256
+MAX_ITERATIONS = 50
 MAX_DIFFICULTY = 10
 
 
@@ -29,15 +31,13 @@ class LevelGenerator:
 
     def generate_level(self):
         level_difficulty = self.environment.difficulty
-        if round(level_difficulty) == 1 or round(level_difficulty) == 2:
-            temp = self.environment.player_params
+        if round(level_difficulty) == 1 or round(level_difficulty) == 2 or round(level_difficulty) == 3:
             self.level, self.environment = ManualLevel(level_difficulty).select_level()
-            self.environment.player_params = temp
         else:
+            self.update_max_iterations()
             self.level = self.allocate_level()
             self.insert_level_border()
             self.start_agents_generation()
-
         return Level(self.sprite_size, self.level)
 
     def insert_level_border(self):
@@ -48,21 +48,49 @@ class LevelGenerator:
             self.level[0][j] = '#'
             self.level[self.environment.height+1][j] = '#'
 
-
     def start_agents_generation(self):
+        count = 0
+        solver_return = False
+        new_level = None
+        agent_chances = self.get_agents_chances()
+        # self.print_best_agent_chances(agent_chances)
+        while count <= 1000 and solver_return is False:
+            count+=1
+            new_level = self.level.copy() # blank level
+            self.update_agent_list(agent_chances, new_level)
+            self.generate_level_by_agent_actions(self.agents)
+            solver_return = self.is_level_solvable(new_level)
+
+        if solver_return is True:
+            self.level = new_level
+            return
+        print('NO SOLUTION FOUND SO NO LEVEL GENERATED')
+        self.level, self.environment = ManualLevel(2).select_level()
+
+    def get_agents_chances(self):
         blank_level = self.level.copy()
-        genetic_algo = GeneticAlgorithm(10, 10, .05, blank_level, self.environment)
+        genetic_algo = GeneticAlgorithm(10, 100, .05, blank_level, self.environment, self.n_agents_iterations)
         best_individual = genetic_algo.run()
+        # self.print_best_agent_chances(best_individual)
+        # [[constructor.chance, construct_block_chance, construct_box_chance],
+        # [destructor.chance, destruct_block_chance, construct_goal_chance]]
+        return best_individual
 
-        self.print_best_agent_chances(best_individual)
-
-        #self.level =
+    def update_agent_list(self, agent_chances, new_level):
+        constructor_agent = ConstructorAgent(agent_chances[0][0], new_level, self.environment, agent_chances[0][1], agent_chances[0][2])
+        destructor_agent = DestructorAgent(agent_chances[1][0], new_level, self.environment, agent_chances[1][1], agent_chances[1][2])
+        self.agents = [constructor_agent, destructor_agent]
 
     def generate_level_by_agent_actions(self, agents):
-        self.update_max_iterations()
         for interaction in range(self.n_agents_iterations):
             for i in range(len(agents)):
                 agents[i].act()
+
+    def is_level_solvable(self, new_level):
+        level_object = Level(64, new_level)
+        player = Player(level_object, 64)
+        solver = BFSSolver(player, level_object, None, None)
+        return solver.solve_level()
 
     def allocate_level(self):
         return [['-' for _ in range(self.environment.width + 2)] for _ in range(self.environment.height + 2)]
@@ -110,4 +138,4 @@ def test():
     level = test.generate_level()
     # END generate next level like
     test.print()
-test()
+#test()
