@@ -5,6 +5,7 @@ from scripts.artificial_agents.destructor_agent import DestructorAgent
 from scripts.solvers.solver_bfs import BFSSolver
 from scripts.level_generation.player import Player
 from scripts.level_generation.level import Level
+import copy
 
 FITNESS_SOLVING_WEIGHT = 10
 FITNESS_BLOCKS_EVALUATION_WEIGHT = 1
@@ -23,13 +24,17 @@ class GeneticAlgorithm:
     environment = None
     population = None
 
-    def __init__(self, population_size, generations, mutation_rate, blank_level, environment):
+    n_iterations = MAX_ITERATIONS
+
+    def __init__(self, population_size, generations, mutation_rate, blank_level, environment, n_iteractions):
         self.population_size = population_size
         self.generations = generations
         self.mutation_rate = mutation_rate
         self.level = blank_level
         self.environment = environment
         self.population = self.initialize_population()
+
+        self.n_iterations = n_iteractions
 
     def initialize_population(self):
         population = []
@@ -48,26 +53,28 @@ class GeneticAlgorithm:
         return population
 
     def fitness(self, individual):
-        level = self.level.copy()
-        constructor_agent = ConstructorAgent(individual[0][0], level, self.environment, individual[0][1],
-                                             individual[0][2])
-        destructor_agent = DestructorAgent(individual[1][0], level, self.environment, individual[1][1],
-                                           individual[1][2])
-
         solving_evaluation = 0
         blocks_evaluation = 0
         difficulty_factor = 0
+        #self.print_level(self.level)
         for _ in range(NUM_LEVEL_GEN):
+            level = copy.deepcopy(self.level)
+            #level = self.level.copy()
+            constructor_agent = ConstructorAgent(individual[0][0], level, self.environment, individual[0][1],
+                                                 individual[0][2])
+            destructor_agent = DestructorAgent(individual[1][0], level, self.environment, individual[1][1],
+                                               individual[1][2])
             self.generate_level_by_agent_actions([constructor_agent, destructor_agent])
             i, j = self.find_max_dash_3x3(level)
             level[i][j] = '@'
-            self.print_level(level)
+            #self.print_level(level)
             level_object = Level(64, level)
             player = Player(level_object, 64)
             solver = BFSSolver(player, level_object, None, None)
             blocks, boxes, goals = self.count_blocks(level)
             blocks_evaluation += (blocks + boxes + goals)/ (self.environment.height * self.environment.width)
             if solver.solve_level():
+                print('FOUND SOLUTION')
                 solving_evaluation += 1
 
         total_fitness = FITNESS_SOLVING_WEIGHT*solving_evaluation + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation
@@ -127,21 +134,22 @@ class GeneticAlgorithm:
     def run(self):
         for generation in range(self.generations):
             fitnesses = [self.fitness(individual) for individual in self.population]
-
+            self.print_level(self.level)
             new_population = []
             for _ in range(self.population_size // 2):
                 parent1, parent2 = self.select_parents(fitnesses)
                 child = self.crossover(parent1, parent2)
                 self.mutate(child)
                 new_population.append(child)
-
+            self.print_level(self.level)
             self.population = new_population
 
+        self.print_level(self.level)
         best_individual = max(self.population, key=lambda ind: self.fitness(ind))
         return best_individual
 
     def generate_level_by_agent_actions(self, agents):
-        for interaction in range(MAX_ITERATIONS):
+        for interaction in range(self.n_iterations):
             for i in range(len(agents)):
                 agents[i].act()
 
@@ -178,8 +186,6 @@ class GeneticAlgorithm:
         return blocks, boxes, goals
 
     def print_level(self, level):
-        print(len(level))
-        print(len(level[0]))
         for i in range(len(level)):
             print(level[i])
         print()

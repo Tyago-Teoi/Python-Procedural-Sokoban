@@ -18,11 +18,10 @@ class BFSSolver(Solver):
             return True
         else:
             if self.was_solved:
-                print(1)
                 #super().show_movements()
                 return True
             else:
-                print('NO SOLUTION FOUND')
+                #print('NO SOLUTION FOUND')
                 return False
 
     def calculate_solution(self):
@@ -74,7 +73,6 @@ class BFSSolver(Solver):
                     boxes.append((r, c))
                 elif cell == ".":
                     goals.append((r, c))
-            print()
 
         return boxes, goals
 

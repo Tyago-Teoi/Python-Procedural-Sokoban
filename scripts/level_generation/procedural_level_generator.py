@@ -1,3 +1,4 @@
+import copy
 from scripts.artificial_agents.destructor_agent import DestructorAgent
 from scripts.artificial_agents.constructor_agent import ConstructorAgent
 from scripts.level_generation.level import Level
@@ -10,8 +11,6 @@ from scripts.solvers.solver_bfs import BFSSolver
 from scripts.level_generation.player import Player
 
 MAX_ITERATIONS = 50
-MAX_DIFFICULTY = 10
-
 
 class LevelGenerator:
     n_agents_iterations = MAX_ITERATIONS
@@ -56,7 +55,7 @@ class LevelGenerator:
         # self.print_best_agent_chances(agent_chances)
         while count <= 1000 and solver_return is False:
             count+=1
-            new_level = self.level.copy() # blank level
+            new_level = copy.deepcopy(self.level)
             self.update_agent_list(agent_chances, new_level)
             self.generate_level_by_agent_actions(self.agents)
             solver_return = self.is_level_solvable(new_level)
@@ -68,8 +67,8 @@ class LevelGenerator:
         self.level, self.environment = ManualLevel(2).select_level()
 
     def get_agents_chances(self):
-        blank_level = self.level.copy()
-        genetic_algo = GeneticAlgorithm(10, 100, .05, blank_level, self.environment, self.n_agents_iterations)
+        blank_level = copy.deepcopy(self.level)
+        genetic_algo = GeneticAlgorithm(20, 20, .05, blank_level, self.environment, self.n_agents_iterations)
         best_individual = genetic_algo.run()
         # self.print_best_agent_chances(best_individual)
         # [[constructor.chance, construct_block_chance, construct_box_chance],
@@ -119,7 +118,7 @@ class LevelGenerator:
 
 #put on a copy of "sprites" folder inside the "level_generation" folder
 def test():
-    environment = Environment(6, 6, 1, None)
+    environment = Environment(6, 6, 2, None)
     test = LevelGenerator(64,environment)
 
     player_params = {
@@ -138,4 +137,4 @@ def test():
     level = test.generate_level()
     # END generate next level like
     test.print()
-#test()
+test()

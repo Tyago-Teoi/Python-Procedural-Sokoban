@@ -19,7 +19,6 @@ class Agent:
         rand = random.uniform(0,1)
         accumulator = 0 + self.chance.walk
 
-        #print(self.name)
         if rand < accumulator:
             self.walk()
             return
@@ -96,8 +95,6 @@ class Agent:
         elif self.facing == 'L':
             next_position.x -= 1
 
-        #last_position.print()
-        #next_position.print()
         if self.is_valid(next_position) and self.is_walkable(next_position):
             return next_position
         return last_position

@@ -66,8 +66,6 @@ class Level:
         self.SPRITE_SIZE = sprite_size
         self.matrix = matrix
         self.update_level()
-        print(len(self.matrix))
-        print(len(self.matrix[0]))
 
     def update_level(self):
         self.sprite = arcade.SpriteList()
