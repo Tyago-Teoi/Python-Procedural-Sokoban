@@ -43,7 +43,7 @@ individual's fitness, considering the number of blocks and whether the level is 
 The game intends to be an Educational Game focused on raising awareness about sustainable consumption, related to goal 12
 of the UN's 17 Goals of Sustainable Development [2].
 
-Given the game's scope, it is only possible to address some goal targets. So, the project focuses on the Target 12.5:
+Given the game's scope, it is only possible to address some goal targets. So, the project focuses on the Target 12.5 [3]:
 * By 2030, substantially reduce waste generation through prevention, reduction, recycling, and reuse
 
 The player's objective is to clean all the trash in the city and recycle it.
