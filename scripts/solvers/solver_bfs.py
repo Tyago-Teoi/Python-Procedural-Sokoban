@@ -87,7 +87,7 @@ class BFSSolver(Solver):
                         pos = (pos[0] + dr,  pos[1] + dc)
                         path.pop(0)
                         break
-            print(self.movements)
+            #print(self.movements)
 
     def is_solved(self, boxes, targets):
         return all(box in targets for box in boxes)

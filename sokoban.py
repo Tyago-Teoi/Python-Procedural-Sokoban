@@ -16,7 +16,7 @@ SCREEN_TITLE = "Sokoban Level"
 SOLVER_DELAY = .5
 
 # Win screen delay
-WIN_DELAY = 5
+WIN_DELAY = 1
 
 # Define the size of each sprite
 SPRITE_SIZE = 64
@@ -85,7 +85,7 @@ class SokobanLevel(arcade.Window):
         self.timer.on_update(delta_time)
         if self.level.is_player_winner():
             self.level.display_win_screen()
-            #arcade.pause(WIN_DELAY)
+            arcade.pause(WIN_DELAY)
             #self.environment.update(player_params)
             self.level = self.level_generator.generate_next_level(self.player.player_params, self.solver.movements, self.timer)
             self.player.set_player_next_level(self.level)

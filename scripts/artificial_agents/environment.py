@@ -23,6 +23,7 @@ MOVE_FACTOR_RATIO_DIFFERENCE = 5 #Always >= 1
 ARBITRARY_SECONDS_PER_MOVE = 1
 
 class Environment:
+    thrash_type = 'None'
     height, width = 0, 0
     difficulty = 1
     n_box = 0

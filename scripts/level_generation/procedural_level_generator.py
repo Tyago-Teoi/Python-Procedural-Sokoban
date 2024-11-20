@@ -53,7 +53,7 @@ class LevelGenerator:
         new_level = None
         agent_chances = self.get_agents_chances()
         # self.print_best_agent_chances(agent_chances)
-        while count <= 1000 and solver_return is False:
+        while count <= 100 and solver_return is False:
             count+=1
             new_level = copy.deepcopy(self.level)
             self.update_agent_list(agent_chances, new_level)
@@ -68,7 +68,7 @@ class LevelGenerator:
 
     def get_agents_chances(self):
         blank_level = copy.deepcopy(self.level)
-        genetic_algo = GeneticAlgorithm(20, 20, .05, blank_level, self.environment, self.n_agents_iterations)
+        genetic_algo = GeneticAlgorithm(10, 10, .05, blank_level, self.environment, self.n_agents_iterations)
         best_individual = genetic_algo.run()
         # self.print_best_agent_chances(best_individual)
         # [[constructor.chance, construct_block_chance, construct_box_chance],
@@ -86,7 +86,7 @@ class LevelGenerator:
                 agents[i].act()
 
     def is_level_solvable(self, new_level):
-        level_object = Level(64, new_level)
+        level_object = Level(64, copy.deepcopy(new_level))
         player = Player(level_object, 64)
         solver = BFSSolver(player, level_object, None, None)
         return solver.solve_level()
@@ -137,4 +137,4 @@ def test():
     level = test.generate_level()
     # END generate next level like
     test.print()
-test()
+#test()

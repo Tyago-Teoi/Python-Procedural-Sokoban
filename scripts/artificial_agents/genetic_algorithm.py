@@ -72,12 +72,12 @@ class GeneticAlgorithm:
             player = Player(level_object, 64)
             solver = BFSSolver(player, level_object, None, None)
             blocks, boxes, goals = self.count_blocks(level)
-            blocks_evaluation += (blocks + boxes + goals)/ (self.environment.height * self.environment.width)
+            blocks_evaluation += (blocks + boxes + goals)/ (self.environment.height * self.environment.width * self.environment.difficulty)
             if solver.solve_level():
-                print('FOUND SOLUTION')
+                #print('FOUND SOLUTION')
                 solving_evaluation += 1
 
-        total_fitness = FITNESS_SOLVING_WEIGHT*solving_evaluation + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation
+        total_fitness = FITNESS_SOLVING_WEIGHT*solving_evaluation/NUM_LEVEL_GEN + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation
         return total_fitness
 
     def select_parents(self, fitnesses):
@@ -134,7 +134,6 @@ class GeneticAlgorithm:
     def run(self):
         for generation in range(self.generations):
             fitnesses = [self.fitness(individual) for individual in self.population]
-            self.print_level(self.level)
 
             # ELITISM
             n_elite = max(1, self.population_size // 10)  # 10% of the population or at least 1
@@ -148,7 +147,6 @@ class GeneticAlgorithm:
                 self.mutate(child)
                 new_population.append(child)
 
-            self.print_level(self.level)
             self.population = new_population
 
         self.print_level(self.level)
