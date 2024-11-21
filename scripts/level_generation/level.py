@@ -14,8 +14,8 @@ SPRITES = {
                      "sprites/trash_paper_002.png"],
           'glass':["sprites/trash_glass_001.png",
                      "sprites/trash_glass_002.png"],
-          'generic':["sprites/trash_generic_001.png",
-                     "sprites/trash_generic_002.png"]},
+          'generic':["sprites/trash_glass_001.png",
+                     "sprites/trash_paper_002.png"]},
     '@': "sprites/empty_001.png",
     '%': {'plastic':"sprites/can_plastic_002.png",
           'metal': 'sprites/can_metal_002.png',
@@ -80,6 +80,7 @@ class Level:
     matrix = None
     sprite = None
     trash_type = 'generic'
+    trash_index = -1
 
     def __init__(self, sprite_size, matrix, trash_type):
         self.trash_type = trash_type
@@ -92,13 +93,11 @@ class Level:
         for row_index, row in enumerate(self.matrix):
             for col_index, item in enumerate(row):
                 if item in SPRITES:
-                    print(item)
                     if item == LevelBlock.BOX_BLOCK:
-                        path = random.choice(SPRITES[item][self.trash_type])
-                        print(path)
-                        print(type(path))
-                        self.setup_sprite(path, col_index, row_index)
-                    if item == LevelBlock.GOAL_BLOCK or item == LevelBlock.BOX_UNDER_GOAL_BLOCK :
+                        if self.trash_index == -1:
+                            self.trash_index = random.randint(0, len(SPRITES[item][self.trash_type]) - 1)
+                        self.setup_sprite(SPRITES[item][self.trash_type][self.trash_index], col_index, row_index)
+                    elif item == LevelBlock.GOAL_BLOCK or item == LevelBlock.BOX_UNDER_GOAL_BLOCK :
                         self.setup_sprite(SPRITES[item][self.trash_type], col_index, row_index)
                     else:
                         self.setup_sprite(SPRITES[item],  col_index, row_index)

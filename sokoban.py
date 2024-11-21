@@ -72,6 +72,8 @@ class SokobanLevel(arcade.Window):
                 #self.player.reload_level()
 
             self.player.print_player_params()
+            self.level.update_level()
+            self.player.sprite.update()
             #self.player.print_movements()
 
     def on_draw(self):
@@ -101,8 +103,6 @@ class SokobanLevel(arcade.Window):
                 is_solving = False
                 count = 0
 
-        self.level.update_level()
-        self.player.sprite.update()
 
 def main():
     window = SokobanLevel()

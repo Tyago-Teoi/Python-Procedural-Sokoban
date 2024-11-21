@@ -89,7 +89,7 @@ class LevelGenerator:
                 agents[i].act()
 
     def is_level_solvable(self, new_level):
-        level_object = Level(64, copy.deepcopy(new_level))
+        level_object = Level(64, copy.deepcopy(new_level), 'generic')
         player = Player(level_object, 64)
         solver = BFSSolver(player, level_object, None, None)
         return solver.solve_level()
