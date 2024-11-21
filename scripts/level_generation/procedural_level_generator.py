@@ -39,7 +39,7 @@ class LevelGenerator:
             self.level = self.allocate_level()
             self.insert_level_border()
             self.start_agents_generation()
-        return Level(self.sprite_size, self.level)
+        return Level(self.sprite_size, self.level, self.environment.trash_type)
 
     def insert_level_border(self):
         for i in range(self.environment.height + 2):

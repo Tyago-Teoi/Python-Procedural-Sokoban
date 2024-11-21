@@ -1,14 +1,32 @@
 import arcade
+import random
 #from scripts.procedural_level_generator import LevelGenerator
 
 # Sprite file paths
 SPRITES = {
     '#': "sprites/wall_001.png",
     '-': "sprites/empty_001.png",
-    '$': "sprites/trash_paper_001.png",
+    '$': {'plastic':["sprites/trash_plastic_001.png",
+                     "sprites/trash_plastic_002.png"],
+          'metal':["sprites/trash_metal_001.png",
+                     "sprites/trash_metal_002.png"],
+          'paper':["sprites/trash_paper_001.png",
+                     "sprites/trash_paper_002.png"],
+          'glass':["sprites/trash_glass_001.png",
+                     "sprites/trash_glass_002.png"],
+          'generic':["sprites/trash_generic_001.png",
+                     "sprites/trash_generic_002.png"]},
     '@': "sprites/empty_001.png",
-    '%': "sprites/can_generic_002.png",
-    '.': "sprites/can_generic_001.png",
+    '%': {'plastic':"sprites/can_plastic_002.png",
+          'metal': 'sprites/can_metal_002.png',
+          'paper': 'sprites/can_paper_002.png',
+          'glass': 'sprites/can_glass_002.png',
+          'generic': 'sprites/can_generic_002.png'},
+    '.': {'plastic':"sprites/can_plastic_001.png",
+          'metal': 'sprites/can_metal_001.png',
+          'paper': 'sprites/can_paper_001.png',
+          'glass': 'sprites/can_glass_001.png',
+          'generic': 'sprites/can_generic_001.png'}
 }
 
 class LevelBlock:
@@ -61,8 +79,10 @@ class Level:
     '''
     matrix = None
     sprite = None
+    trash_type = 'generic'
 
-    def __init__(self, sprite_size, matrix):
+    def __init__(self, sprite_size, matrix, trash_type):
+        self.trash_type = trash_type
         self.SPRITE_SIZE = sprite_size
         self.matrix = matrix
         self.update_level()
@@ -72,10 +92,22 @@ class Level:
         for row_index, row in enumerate(self.matrix):
             for col_index, item in enumerate(row):
                 if item in SPRITES:
-                    sprite = arcade.Sprite(SPRITES[item], scale=1)
-                    sprite.center_x = col_index * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
-                    sprite.center_y = (len(self.matrix) - row_index - 1) * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
-                    self.sprite.append(sprite)
+                    print(item)
+                    if item == LevelBlock.BOX_BLOCK:
+                        path = random.choice(SPRITES[item][self.trash_type])
+                        print(path)
+                        print(type(path))
+                        self.setup_sprite(path, col_index, row_index)
+                    if item == LevelBlock.GOAL_BLOCK or item == LevelBlock.BOX_UNDER_GOAL_BLOCK :
+                        self.setup_sprite(SPRITES[item][self.trash_type], col_index, row_index)
+                    else:
+                        self.setup_sprite(SPRITES[item],  col_index, row_index)
+
+    def setup_sprite(self, sprite_path, col_index, row_index):
+        sprite = arcade.Sprite(sprite_path, scale=1)
+        sprite.center_x = col_index * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
+        sprite.center_y = (len(self.matrix) - row_index - 1) * self.SPRITE_SIZE + self.SPRITE_SIZE / 2
+        self.sprite.append(sprite)
 
     def generate_new_level(self, height, width):
         self.matrix = [['-' for x in range(width)] for y in range(height)]

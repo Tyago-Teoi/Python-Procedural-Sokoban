@@ -23,18 +23,20 @@ MOVE_FACTOR_RATIO_DIFFERENCE = 5 #Always >= 1
 ARBITRARY_SECONDS_PER_MOVE = 1
 
 class Environment:
-    thrash_type = 'None'
+    trash_type = 'None'
     height, width = 0, 0
     difficulty = 1
     n_box = 0
     n_goal = 0
 
     def __init__(self, height: int, width: int, difficulty: int, player_params: dict):
+        self.trash_type = random.choice(['plastic', 'glass', 'metal', 'paper'])
         self.height = height
         self.width = width
         self.difficulty = difficulty
 
     def update(self, player_params, solver_movements, timer: Timer):
+        self.trash_type = random.choice(['plastic', 'glass', 'metal', 'paper'])
         # [-2, +2] game difficulty adjustment
         f_time = self.time_modification_factor(timer.level_time)
         f_move = self.player_movement_modification_factor(player_params, solver_movements)

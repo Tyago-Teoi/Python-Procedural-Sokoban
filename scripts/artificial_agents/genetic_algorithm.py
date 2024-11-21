@@ -68,7 +68,7 @@ class GeneticAlgorithm:
             i, j = self.find_max_dash_3x3(level)
             level[i][j] = '@'
             #self.print_level(level)
-            level_object = Level(64, level)
+            level_object = Level(64, level, 'generic')
             player = Player(level_object, 64)
             solver = BFSSolver(player, level_object, None, None)
             blocks, boxes, goals = self.count_blocks(level)
