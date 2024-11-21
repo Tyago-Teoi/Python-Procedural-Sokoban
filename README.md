@@ -60,6 +60,8 @@ Some procedural generator parameters need to be adjusted, as well as constants r
 All of these elements consider and relate to the time spent generating a level, which is a technical limitation that needs to be addressed.
 
 ### Narrative Limitations
+The game lacks UI. It has no menu, mechanics tutorial, points, etc.
+
 As a serious game, the game lacks elements of the serious intent to raise awareness about sustainable consumption.
 
 It is planned to be implemented Lore Items or Collectibles for the user to read about the game's intentions related to
