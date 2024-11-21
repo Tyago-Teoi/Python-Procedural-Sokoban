@@ -27,6 +27,10 @@ class BFSSolver(Solver):
     def calculate_solution(self):
         self.solution_tried = True
         count = 0
+        n_boxes, n_empties, n_goals, n_limits = self.level.count_blocks()
+        if n_boxes <= 0 or n_boxes > n_goals:
+            self.was_solved = False
+            return None
 
         boxes, goals = self.find_box_goals_positions(self.level)
         initial_state = ((len(self.level.matrix) - self.player.position.y - 1, self.player.position.x), tuple(boxes))

@@ -10,7 +10,9 @@ from scripts.utils.timer import Timer
 from scripts.solvers.solver_bfs import BFSSolver
 from scripts.level_generation.player import Player
 
-MAX_ITERATIONS = 50
+MAX_ITERATIONS = 256
+POPULATION_SIZE = 10
+GENERATIONS = 10
 
 class LevelGenerator:
     n_agents_iterations = MAX_ITERATIONS
@@ -62,13 +64,14 @@ class LevelGenerator:
 
         if solver_return is True:
             self.level = new_level
+            self.print_level(self.level)
             return
         print('NO SOLUTION FOUND SO NO LEVEL GENERATED')
         self.level, self.environment = ManualLevel(2).select_level()
 
     def get_agents_chances(self):
         blank_level = copy.deepcopy(self.level)
-        genetic_algo = GeneticAlgorithm(10, 10, .05, blank_level, self.environment, self.n_agents_iterations)
+        genetic_algo = GeneticAlgorithm(POPULATION_SIZE, GENERATIONS, .05, blank_level, self.environment, self.n_agents_iterations)
         best_individual = genetic_algo.run()
         # self.print_best_agent_chances(best_individual)
         # [[constructor.chance, construct_block_chance, construct_box_chance],
@@ -110,11 +113,10 @@ class LevelGenerator:
         print('construct goal: {a}'.format(a=best_individual[1][2]))
         print()
 
-    def print(self):
-        for i in range(self.environment.height + 2):
-            for j in range(self.environment.width + 2):
-                print(self.level[i][j], end = " ")
-            print()
+    def print_level(self, level):
+        for i in range(len(level)):
+            print(level[i])
+        print()
 
 #put on a copy of "sprites" folder inside the "level_generation" folder
 def test():

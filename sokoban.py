@@ -1,4 +1,5 @@
 import arcade
+import copy
 
 from scripts.level_generation.level import Level
 from scripts.level_generation.procedural_level_generator import LevelGenerator
@@ -84,13 +85,15 @@ class SokobanLevel(arcade.Window):
         count += 1
         self.timer.on_update(delta_time)
         if self.level.is_player_winner():
+            print('STARTING NEXT LEVEL GENERATION')
             self.level.display_win_screen()
-            arcade.pause(WIN_DELAY)
-            #self.environment.update(player_params)
+            #arcade.pause(WIN_DELAY)
+            #self.timer.on_update(-WIN_DELAY)
             self.level = self.level_generator.generate_next_level(self.player.player_params, self.solver.movements, self.timer)
+            self.solver = BFSSolver(self.player, Level(SPRITE_SIZE, copy.deepcopy(self.level.matrix)), self.timer, SOLVER_DELAY)
             self.player.set_player_next_level(self.level)
             self.timer.reset()
-            self.solver = BFSSolver(self.player, self.level, self.timer, SOLVER_DELAY)
+            print('ENDING NEXT LEVEL GENERATION')
         if is_solving and count%2 == 0:
             arcade.pause(SOLVER_DELAY)
             solver_movements_remaining = self.solver.move_solver()

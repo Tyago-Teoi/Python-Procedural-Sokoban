@@ -37,7 +37,6 @@ class Solver:
         self.movements.pop(0)
         return len(self.movements)
 
-
     def show_movements(self):
         self.player.reload_level()
         movements = self.movements.copy()

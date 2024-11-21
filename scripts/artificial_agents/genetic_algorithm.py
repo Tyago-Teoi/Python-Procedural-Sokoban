@@ -7,11 +7,11 @@ from scripts.level_generation.player import Player
 from scripts.level_generation.level import Level
 import copy
 
-FITNESS_SOLVING_WEIGHT = 10
+FITNESS_SOLVING_WEIGHT = 1
 FITNESS_BLOCKS_EVALUATION_WEIGHT = 1
 
 MAX_ITERATIONS = 256
-NUM_LEVEL_GEN = 10
+NUM_LEVEL_GEN = 5
 MAX_AGENTS = 2
 INITIAL_AGENTS_NUMBER = 2
 blank_level_matrix = None
@@ -149,7 +149,6 @@ class GeneticAlgorithm:
 
             self.population = new_population
 
-        self.print_level(self.level)
         best_individual = max(self.population, key=lambda ind: self.fitness(ind))
         return best_individual
 

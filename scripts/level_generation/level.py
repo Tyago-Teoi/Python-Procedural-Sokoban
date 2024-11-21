@@ -87,6 +87,23 @@ class Level:
                     return False
         return True
 
+    def count_blocks(self):
+        boxes = 0
+        goals = 0
+        empties = 0
+        limits = 0
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[0])):
+                if self.matrix[i][j] == LevelBlock.BOX_BLOCK:
+                    boxes += 1
+                if self.matrix[i][j] == LevelBlock.LIMIT_BLOCK:
+                    limits += 1
+                if self.matrix[i][j] == LevelBlock.EMPTY_BLOCK:
+                    empties += 1
+                if self.matrix[i][j] == LevelBlock.GOAL_BLOCK:
+                    goals += 1
+        return boxes, empties, goals, limits
+
     def display_win_screen(self):
         #print('PLAYER WIN')
         pass
