@@ -95,6 +95,8 @@ class SokobanLevel(arcade.Window):
             self.solver = BFSSolver(self.player, Level(SPRITE_SIZE, copy.deepcopy(self.level.matrix), 'generic'), self.timer, SOLVER_DELAY)
             self.player.set_player_next_level(self.level)
             self.timer.reset()
+            self.level.update_level()
+            self.player.sprite.update()
             print('ENDING NEXT LEVEL GENERATION')
         if is_solving and count%2 == 0:
             arcade.pause(SOLVER_DELAY)
