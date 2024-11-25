@@ -77,7 +77,8 @@ class GeneticAlgorithm:
                 #print('FOUND SOLUTION')
                 solving_evaluation += 1
 
-        total_fitness = FITNESS_SOLVING_WEIGHT*solving_evaluation/NUM_LEVEL_GEN + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation
+        total_fitness = ((FITNESS_SOLVING_WEIGHT*solving_evaluation/NUM_LEVEL_GEN + FITNESS_BLOCKS_EVALUATION_WEIGHT*blocks_evaluation) /
+                         (FITNESS_SOLVING_WEIGHT + FITNESS_BLOCKS_EVALUATION_WEIGHT))
         return total_fitness
 
     def select_parents(self, fitnesses):
